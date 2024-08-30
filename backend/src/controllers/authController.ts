@@ -11,7 +11,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const jwt_secret = process.env.JWT_SECRET || "secret";
+const jwt_secret = process.env.JWT_SECRET as string;
 
 const register = async (req: any, res: any) => {
   const validation_result = validationResult(req);
@@ -58,10 +58,21 @@ const login = async (req: any, res: any) => {
   if (!password_match) {
     return res.status(401).json({ message: "Incorrect credentials" });
   }
-
-  const token = jwt.sign({ id: user.id, phone_number }, jwt_secret, {
-    //   expiresIn: "1h",
-  });
+  const token = jwt.sign(
+    {
+      id: user.id,
+      phone_number,
+      "https://hasura.io/jwt/claims": {
+        "x-hasura-allowed-roles": [user.role, "default"],
+        "x-hasura-default-role": user.role,
+        "x-hasura-user-id": user.id,
+      },
+    },
+    jwt_secret,
+    {
+      //   expiresIn: "1h",
+    }
+  );
 
   updateUser(user.id, { token })
     .then(() => {
