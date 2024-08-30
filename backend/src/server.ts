@@ -4,6 +4,7 @@ import sequelize from "./config/database";
 import { User } from "./models/User";
 import { Tea } from "./models/Tea";
 import { Order } from "./models/Order";
+import { OrderItems } from "./models/OrderItems";
 
 dotenv.config();
 
@@ -14,11 +15,13 @@ const startServer = () => {
   User.initialize(sequelize);
   Tea.initialize(sequelize);
   Order.initialize(sequelize);
+  OrderItems.initialize(sequelize);
 
   // Establish associations
-  //   User.associate();
-  //   Tea.associate();
-  //   Order.associate();
+  User.associate();
+  Tea.associate();
+  Order.associate();
+  OrderItems.associate();
 
   sequelize
     .sync()

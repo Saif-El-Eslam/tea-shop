@@ -1,13 +1,11 @@
-// src/models/Order.ts
 import { DataTypes, Model, Sequelize } from "sequelize";
-import { Tea } from "./Tea";
 import { User } from "./User";
+import { OrderItems } from "./OrderItems";
 
 export class Order extends Model {
   public id!: string;
-  public tea_id!: string;
   public user_id!: string;
-  public quantity!: number;
+  public total_price!: number;
   public readonly created_at!: Date;
   public readonly updated_at!: Date;
 
@@ -19,14 +17,6 @@ export class Order extends Model {
           defaultValue: DataTypes.UUIDV4,
           primaryKey: true,
         },
-        tea_id: {
-          type: DataTypes.UUID,
-          allowNull: false,
-          references: {
-            model: Tea,
-            key: "id",
-          },
-        },
         user_id: {
           type: DataTypes.UUID,
           allowNull: false,
@@ -35,12 +25,8 @@ export class Order extends Model {
             key: "id",
           },
         },
-        action: {
-          type: DataTypes.ENUM("add", "subtract"),
-          allowNull: false,
-        },
-        quantity: {
-          type: DataTypes.INTEGER,
+        total_price: {
+          type: DataTypes.DECIMAL,
           allowNull: false,
         },
       },
@@ -53,13 +39,10 @@ export class Order extends Model {
   }
 
   public static associate() {
-    Order.belongsTo(Tea, {
-      foreignKey: "tea_id",
-      as: "tea",
-    });
     Order.belongsTo(User, {
       foreignKey: "user_id",
-      as: "user",
+      as: "users",
+      onDelete: "CASCADE",
     });
   }
 }

@@ -1,12 +1,14 @@
-// src/models/User.ts
 import { DataTypes, Model, Sequelize } from "sequelize";
 import { Tea } from "./Tea";
 import { Order } from "./Order";
 
 export class User extends Model {
   public id!: string;
+  public name!: string;
   public phone_number!: string;
   public password_hash!: string;
+  public token!: string;
+  public role!: string;
   public readonly created_at!: Date;
   public readonly updated_at!: Date;
 
@@ -32,8 +34,13 @@ export class User extends Model {
           allowNull: false,
         },
         token: {
-          type: DataTypes.STRING,
+          type: DataTypes.STRING(2048),
           allowNull: true,
+        },
+        role: {
+          type: DataTypes.ENUM("admin", "user"),
+          allowNull: false,
+          defaultValue: "user",
         },
       },
       {
@@ -55,12 +62,6 @@ export class User extends Model {
     User.hasMany(Order, {
       foreignKey: "user_id",
       as: "orders",
-      onDelete: "CASCADE",
-    });
-
-    User.hasMany(Tea, {
-      foreignKey: "user_id",
-      as: "teas",
       onDelete: "CASCADE",
     });
   }

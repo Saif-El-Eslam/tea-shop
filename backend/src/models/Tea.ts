@@ -1,13 +1,15 @@
-// src/models/Tea.ts
 import { DataTypes, Model, Sequelize } from "sequelize";
 import { Order } from "./Order";
+import { OrderItems } from "./OrderItems";
 import { User } from "./User";
 
 export class Tea extends Model {
   public id!: string;
   public name!: string;
   public type!: string;
+  public description!: string;
   public price_per_unit!: number;
+  public total_quantity!: number;
   public readonly created_at!: Date;
   public readonly updated_at!: Date;
 
@@ -19,14 +21,6 @@ export class Tea extends Model {
           defaultValue: DataTypes.UUIDV4,
           primaryKey: true,
         },
-        user_id: {
-          type: DataTypes.UUID,
-          allowNull: false,
-          references: {
-            model: User,
-            key: "id",
-          },
-        },
         name: {
           type: DataTypes.STRING,
           allowNull: false,
@@ -35,11 +29,15 @@ export class Tea extends Model {
           type: DataTypes.ENUM("Green", "Black", "Herbal", "Oolong", "White"),
           allowNull: false,
         },
+        description: {
+          type: DataTypes.STRING,
+          allowNull: true,
+        },
         price_per_unit: {
           type: DataTypes.DECIMAL,
           allowNull: false,
         },
-        total_quantity: {
+        quantity: {
           type: DataTypes.INTEGER,
           allowNull: false,
           defaultValue: 0,
@@ -52,24 +50,12 @@ export class Tea extends Model {
         indexes: [
           {
             unique: true,
-            fields: ["user_id", "type"],
+            fields: ["type"],
           },
         ],
       }
     );
   }
 
-  public static associate() {
-    Tea.hasMany(Order, {
-      foreignKey: "tea_id",
-      as: "orders",
-      onDelete: "CASCADE",
-    });
-
-    Tea.belongsTo(User, {
-      foreignKey: "user_id",
-      as: "user",
-      onDelete: "CASCADE",
-    });
-  }
+  public static associate() {}
 }
