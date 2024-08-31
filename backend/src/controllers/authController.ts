@@ -1,19 +1,10 @@
 import bcrypt from "bcrypt";
 import { validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
-import {
-  createUser,
-  getUserByPhoneNumber,
-  getUserById,
-  updateUser,
-} from "../services/userService";
+import { register, login, logout } from "../services/userService";
 import dotenv from "dotenv";
 
-dotenv.config();
-
-const jwt_secret = process.env.JWT_SECRET as string;
-
-const register = async (req: any, res: any) => {
+const registerController = async (req: any, res: any) => {
   const validation_result = validationResult(req);
   if (!validation_result.isEmpty()) {
     return res.status(400).json({ errors: validation_result.array() });
@@ -21,27 +12,20 @@ const register = async (req: any, res: any) => {
 
   const { name, phone_number, password, verify_password } = req.body;
 
-  const existingUser = await getUserByPhoneNumber(phone_number);
-  if (existingUser) {
-    return res.status(400).json({ message: "User already exists" });
-  }
-
-  const password_hash = await bcrypt.hash(password, 10);
-
-  createUser({
-    name,
-    phone_number,
-    password_hash,
-  })
-    .then((user) => {
-      return res.status(201).json(user);
-    })
-    .catch((error) => {
-      return res.send(error.message).status(500);
+  try {
+    const user = await register({
+      name,
+      phone_number,
+      password,
     });
+
+    return res.status(201).json(user);
+  } catch (error: any) {
+    return res.status(500).send(error.message);
+  }
 };
 
-const login = async (req: any, res: any) => {
+const loginController = async (req: any, res: any) => {
   const validation_result = validationResult(req);
   if (!validation_result.isEmpty()) {
     return res.status(400).json({ errors: validation_result.array() });
@@ -49,54 +33,27 @@ const login = async (req: any, res: any) => {
 
   const { phone_number, password } = req.body;
 
-  const user: any = await getUserByPhoneNumber(phone_number);
-  if (!user) {
-    return res.status(404).json({ message: "Incorrect credentials" });
+  try {
+    const token = await login(phone_number, password);
+    return res.status(200).json(token);
+  } catch (error: any) {
+    return res.status(500).send(error.message);
   }
-
-  const password_match = await bcrypt.compare(password, user.password_hash);
-  if (!password_match) {
-    return res.status(401).json({ message: "Incorrect credentials" });
-  }
-  const token = jwt.sign(
-    {
-      id: user.id,
-      phone_number,
-      "https://hasura.io/jwt/claims": {
-        "x-hasura-allowed-roles": [user.role, "default"],
-        "x-hasura-default-role": user.role,
-        "x-hasura-user-id": user.id,
-      },
-    },
-    jwt_secret,
-    {
-      //   expiresIn: "1h",
-    }
-  );
-
-  updateUser(user.id, { token })
-    .then(() => {
-      return res.status(200).json({ token });
-    })
-    .catch((error) => {
-      return res.status(500).send(error.message);
-    });
 };
 
-const logout = async (req: any, res: any) => {
+const logoutController = async (req: any, res: any) => {
   const { user } = req;
 
-  updateUser(user.id, { token: null })
-    .then(() => {
-      return res.status(204).send();
-    })
-    .catch((error) => {
-      return res.status(500).send(error.message);
-    });
+  try {
+    await logout(user.id);
+    return res.status(204).send();
+  } catch (error: any) {
+    return res.status(500).send(error.message);
+  }
 };
 
 export default {
-  register,
-  login,
-  logout,
+  registerController,
+  loginController,
+  logoutController,
 };
