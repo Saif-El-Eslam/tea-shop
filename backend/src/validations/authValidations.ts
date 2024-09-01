@@ -3,9 +3,9 @@ import { body, check } from "express-validator";
 const register: any[] = [
   body("name")
     .notEmpty()
-    .withMessage("First name is required")
+    .withMessage("Name is required")
     .isString()
-    .withMessage("First name must be a string"),
+    .withMessage("Name must be a string"),
   check("phone_number")
     .notEmpty()
     .withMessage("Phone number is required")

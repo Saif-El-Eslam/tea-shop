@@ -1,8 +1,5 @@
-import bcrypt from "bcrypt";
 import { validationResult } from "express-validator";
-import jwt from "jsonwebtoken";
 import { register, login, logout } from "../services/userService";
-import dotenv from "dotenv";
 
 const registerController = async (req: any, res: any) => {
   const validation_result = validationResult(req);
@@ -21,7 +18,7 @@ const registerController = async (req: any, res: any) => {
 
     return res.status(201).json(user);
   } catch (error: any) {
-    return res.status(500).send(error.message);
+    return res.status(409).send(error.message);
   }
 };
 
@@ -35,7 +32,7 @@ const loginController = async (req: any, res: any) => {
 
   try {
     const token = await login(phone_number, password);
-    return res.status(200).json(token);
+    return res.status(200).json({ token: token });
   } catch (error: any) {
     return res.status(500).send(error.message);
   }

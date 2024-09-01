@@ -23,13 +23,17 @@ export const register = async ({
 
   const password_hash: string = await bcrypt.hash(password, 10);
 
-  const newUser = await createUser({
+  const newUser: any = await createUser({
     name,
     phone_number,
     password_hash,
   });
 
-  return newUser;
+  return {
+    id: newUser.id,
+    name: newUser.name,
+    phone_number: newUser.phone_number,
+  };
 };
 
 export const login = async (phone_number: string, password: string) => {
