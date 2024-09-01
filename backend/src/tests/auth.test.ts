@@ -148,7 +148,7 @@ describe("Auth Routes", () => {
     expect(response2.body).toHaveProperty("errors");
   });
 
-  it.only("should logout a user", async () => {
+  it("should logout a user", async () => {
     const user = await User.findOne({ where: { phone_number: "123456789" } });
 
     const response = await request(app)
