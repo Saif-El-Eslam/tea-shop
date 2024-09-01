@@ -18,7 +18,7 @@ const registerController = async (req: any, res: any) => {
 
     return res.status(201).json(user);
   } catch (error: any) {
-    return res.status(409).send(error.message);
+    return res.status(409).send({ error: error.message });
   }
 };
 
@@ -34,7 +34,7 @@ const loginController = async (req: any, res: any) => {
     const token = await login(phone_number, password);
     return res.status(200).json({ token: token });
   } catch (error: any) {
-    return res.status(500).send(error.message);
+    return res.status(500).send({ error: error.message });
   }
 };
 
@@ -45,7 +45,7 @@ const logoutController = async (req: any, res: any) => {
     await logout(user.id);
     return res.status(204).send();
   } catch (error: any) {
-    return res.status(500).send(error.message);
+    return res.status(500).send({ error: error.message });
   }
 };
 

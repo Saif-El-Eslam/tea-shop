@@ -146,6 +146,27 @@ describe("Auth Routes", () => {
       .send({ ...toBeLoggedInUser, password: "" });
     expect(response2.status).toBe(400);
     expect(response2.body).toHaveProperty("errors");
+
+    // invalid phone_number
+    const response3 = await request(app)
+      .post("/api/auth/login")
+      .send({ ...toBeLoggedInUser, phone_number: "123" });
+    expect(response3.status).toBe(400);
+    expect(response3.body).toHaveProperty("errors");
+
+    // incorrect credentials
+    const response4 = await request(app)
+      .post("/api/auth/login")
+      .send({ ...toBeLoggedInUser, password: "invalid_password" });
+    expect(response4.status).toBe(500);
+    expect(response4.body).toHaveProperty("error");
+
+    // user does not exist
+    const response5 = await request(app)
+      .post("/api/auth/login")
+      .send({ ...toBeLoggedInUser, phone_number: "1234567980" });
+    expect(response5.status).toBe(500);
+    expect(response5.body).toHaveProperty("error");
   });
 
   it("should logout a user", async () => {
@@ -171,5 +192,22 @@ describe("Auth Routes", () => {
     expect(response.status).toBe(401);
     expect(response.body).toHaveProperty("error");
     expect(response.body.error).toBe("Unauthorized: Invalid token");
+
+    // user not found
+    const user = await User.findOne({ where: { phone_number: "987654321" } });
+    await user?.destroy();
+    const response2 = await request(app)
+      .post("/api/auth/logout")
+      .set("Authorization", `Bearer ${user?.token}`);
+    expect(response2.status).toBe(401);
+    expect(response2.body).toHaveProperty("error");
+    expect(response2.body.error).toBe("Unauthorized: User not found");
+  });
+
+  it("should not logout a user without token", async () => {
+    const response = await request(app).post("/api/auth/logout");
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty("error");
+    expect(response.body.error).toBe("Unauthorized: No token provided");
   });
 });
