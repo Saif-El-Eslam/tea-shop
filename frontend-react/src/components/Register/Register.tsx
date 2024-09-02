@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Input from "./helpers/Input";
-import Button from "./helpers/Button";
-import Notify from "../utils/Notify";
-import Spinner from "./helpers/Spinner";
-import { register } from "../services/AuthService";
-import { useAppContext } from "../context/AppContext";
-import { setLoading } from "../context/AppActions";
+import Input from "../helpers/Input";
+import Button from "../helpers/Button";
+import Notify from "../../utils/Notify";
+import Spinner from "../helpers/Spinner";
+import { register } from "../../services/AuthService";
+import { useAppContext } from "../../context/AppContext";
+import { setLoading } from "../../context/AppActions";
 
 const Register: React.FC = () => {
   const { state, dispatch } = useAppContext();

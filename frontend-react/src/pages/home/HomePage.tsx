@@ -6,8 +6,6 @@ const HomePage: React.FC = () => {
 
   const navigate = useNavigate();
 
-  console.log(state);
-
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold">Hello, User!</h1>

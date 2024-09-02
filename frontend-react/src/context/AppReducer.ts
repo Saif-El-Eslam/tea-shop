@@ -37,7 +37,6 @@ export const initialState: State = {
 export const appReducer = (state: State, action: Action): State => {
   switch (action.type) {
     case SET_USER:
-      console.log("here");
       return { ...state, user: action.payload };
     case SET_LOADING:
       return { ...state, loading: action.payload };

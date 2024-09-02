@@ -1,7 +1,7 @@
-import Logo from "../assets/tea-shop-logo.png";
+import Logo from "../../assets/tea-shop-logo.png";
 import React from "react";
-import { useAppContext } from "../context/AppContext";
-import { setUser } from "../context/AppActions";
+import { useAppContext } from "../../context/AppContext";
+import { setUser } from "../../context/AppActions";
 import { useNavigate } from "react-router-dom";
 
 const Header: React.FC = () => {

@@ -9,8 +9,6 @@ const PrivateRoute: React.FC<{ children: React.ReactElement }> = ({
   const { state } = useAppContext();
   const location = useLocation();
 
-  console.log(state);
-
   if (state.loading) {
     return <Spinner loading={true} />;
   }

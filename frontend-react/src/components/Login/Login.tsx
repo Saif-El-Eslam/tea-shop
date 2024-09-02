@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Input from "./helpers/Input";
-import Button from "./helpers/Button";
-import Spinner from "./helpers/Spinner";
-import { login } from "../services/AuthService";
-import Notify from "../utils/Notify";
-import { useAppContext } from "../context/AppContext";
-import { setUser, setLoading } from "../context/AppActions";
+import Input from "../helpers/Input";
+import Button from "../helpers/Button";
+import Spinner from "../helpers/Spinner";
+import { login } from "../../services/AuthService";
+import Notify from "../../utils/Notify";
+import { useAppContext } from "../../context/AppContext";
+import { setUser, setLoading } from "../../context/AppActions";
 
 const Login: React.FC = () => {
   const { state, dispatch } = useAppContext();
