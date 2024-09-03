@@ -18,13 +18,13 @@ const AuthPage: React.FC = () => {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/" element={<Navigate to="/auth/login" />} />
+          <Route path="/" element={<Navigate to="./login" />} />
         </Routes>
       </div>
       <div className="flex items-center justify-center max-h-[25vh] md:max-h-[80vh] md:order-2 md:rounded-lg bg-lightBeige">
         <img
           src={Logo}
-          alt="tea-shop-logo-login"
+          alt="tea-shop-logo-auth"
           className="h-full block object-cover rounded-lg"
         />
       </div>

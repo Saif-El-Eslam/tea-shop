@@ -1,8 +1,7 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import Header from "./Header";
 import { useAppContext } from "../../context/AppContext";
-import { BrowserRouter as Router } from "react-router-dom";
 
 // Mock the useAppContext hook
 jest.mock("../../context/AppContext", () => ({

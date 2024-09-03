@@ -6,7 +6,7 @@ import {
   // Navigate,
 } from "react-router-dom";
 // import { AuthProvider } from "./context/AuthContext";
-import PrivateRoute from "./components/PrivateRoute";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import AuthPage from "./pages/auth/AuthPage";
 import Home from "./pages/home/HomePage";
 import Teas from "./pages/teas/TeasPage";
