@@ -3,6 +3,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAppContext } from "../../context/AppContext";
 import PrivateRoute from "./PrivateRoute";
+import { MemoryRouter } from "react-router-dom";
 // import AuthPage from "../../pages/auth/AuthPage";
 
 // Mocking necessary modules
@@ -24,9 +25,11 @@ describe("PrivateRoute", () => {
     });
 
     render(
-      <PrivateRoute>
-        <div>Private Content</div>
-      </PrivateRoute>
+      <MemoryRouter>
+        <PrivateRoute>
+          <div>Private Content</div>
+        </PrivateRoute>
+      </MemoryRouter>
     );
 
     // Check if the Spinner is rendered by data-testid
@@ -39,9 +42,11 @@ describe("PrivateRoute", () => {
     });
 
     render(
-      <PrivateRoute>
-        <div>Private Content</div>
-      </PrivateRoute>
+      <MemoryRouter>
+        <PrivateRoute>
+          <div>Private Content</div>
+        </PrivateRoute>
+      </MemoryRouter>
     );
 
     expect(screen.getByText("Private Content")).toBeInTheDocument();
@@ -53,9 +58,11 @@ describe("PrivateRoute", () => {
     });
 
     render(
-      <PrivateRoute>
-        <div>Private Content</div>
-      </PrivateRoute>
+      <MemoryRouter>
+        <PrivateRoute>
+          <div>Private Content</div>
+        </PrivateRoute>
+      </MemoryRouter>
     );
 
     await waitFor(() => {

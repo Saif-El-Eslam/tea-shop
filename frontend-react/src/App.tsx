@@ -11,60 +11,74 @@ import AuthPage from "./pages/auth/AuthPage";
 import Home from "./pages/home/HomePage";
 import Teas from "./pages/teas/TeasPage";
 import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
 import { ToastContainer } from "react-toastify";
 import { AppProvider } from "./context/AppContext";
+import { useLocation } from "react-router-dom";
 
 const App: React.FC = () => {
+  // is auth route ?
+  const location = useLocation();
+  let isAuth = location.pathname.includes("/auth");
+
   return (
     <AppProvider>
       {/* <Router> */}
-      <div className="App bg-[#F5F5F5] h-dvh flex flex-col">
-        <header className="App-header">
-          <Header />
-        </header>
+      <>
+        <div className="App bg-[#F5F5F5] min-h-dvh flex flex-col justify-between">
+          <header className="App-header">
+            <Header />
+          </header>
 
-        <Routes>
-          <Route path="/auth/*" element={<AuthPage />} />
-          <Route
-            path="/teas"
-            element={
-              <PrivateRoute>
-                <Teas />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/"
-            element={
-              <PrivateRoute>
-                <Home />
-              </PrivateRoute>
-            }
-          />
+          <Routes>
+            <Route path="/auth/*" element={<AuthPage />} />
+            <Route
+              path="/teas"
+              element={
+                <PrivateRoute>
+                  <Teas />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/"
+              element={
+                <PrivateRoute>
+                  <Home />
+                </PrivateRoute>
+              }
+            />
 
-          <Route path="/register/*" element={<AuthPage />} />
-          <Route path="/login/*" element={<AuthPage />} />
-          <Route
-            path="/home"
-            element={
-              <PrivateRoute>
-                <Home />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="*"
-            element={
-              // make a 404 page
-              <div className="flex flex-col items-center justify-center h-dvh text-alert font-bold text-2xl">
-                <h1>404</h1>
-                <h2>Page not found</h2>
-              </div>
-            }
-          />
-        </Routes>
+            <Route path="/register/*" element={<AuthPage />} />
+            <Route path="/login/*" element={<AuthPage />} />
+            <Route
+              path="/home"
+              element={
+                <PrivateRoute>
+                  <Home />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="*"
+              element={
+                // make a 404 page
+                <div className="flex flex-col items-center justify-center h-full text-alert font-bold text-2xl">
+                  <h1>404</h1>
+                  <h2>Page not found</h2>
+                </div>
+              }
+            />
+          </Routes>
+
+          {!isAuth && (
+            <footer className="App-footer">
+              <Footer />
+            </footer>
+          )}
+        </div>
         <ToastContainer />
-      </div>
+      </>
       {/* </Router> */}
     </AppProvider>
   );
