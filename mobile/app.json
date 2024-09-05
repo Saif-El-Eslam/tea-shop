@@ -1,0 +1,27 @@
+{
+  "expo": {
+    "name": "Tea Shop",
+    "slug": "mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./app/assets/tea-shop-logo.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./app/assets/tea-shop-logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./app/assets/tea-shop-logo.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "favicon": "./app/assets/tea-shop-logo.png"
+    }
+  }
+}
