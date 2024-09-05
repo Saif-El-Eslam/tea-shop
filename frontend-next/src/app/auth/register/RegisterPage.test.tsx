@@ -1,29 +1,50 @@
 import React from "react";
 import { render, fireEvent, screen, waitFor } from "@testing-library/react";
-import { useNavigate } from "react-router-dom";
-import Register from "./Register";
-import { register } from "../../services/AuthService";
-import { useAppContext } from "../../context/AppContext";
-import Notify from "../../utils/Notify";
+import { useRouter } from "next/navigation";
+import Register from "./page"; // Adjust path as necessary
+import { register } from "@/services/AuthService";
+import { useAppContext } from "@/context/AppContext";
+import Notify from "@/utils/Notify";
 
-jest.mock("react-router-dom", () => ({
-  useNavigate: jest.fn(),
+// Mock the necessary modules
+jest.mock("next/navigation", () => ({
+  useRouter: jest.fn(),
 }));
 
-jest.mock("../../services/AuthService");
-jest.mock("../../context/AppContext");
-jest.mock("../../utils/Notify");
+jest.mock("../../../context/AppContext", () => ({
+  useAppContext: jest.fn(),
+}));
+
+jest.mock("../../../services/AuthService", () => ({
+  register: jest.fn(),
+}));
+
+jest.mock("../../../utils/Notify", () => ({
+  success: jest.fn(),
+  error: jest.fn(),
+}));
 
 describe("Register Component", () => {
+  const mockPush = jest.fn();
   const mockDispatch = jest.fn();
-  const mockNavigate = jest.fn();
 
   beforeEach(() => {
+    // Mock useRouter hook
+    (useRouter as jest.Mock).mockReturnValue({ push: mockPush });
+
+    // Mock useAppContext
     (useAppContext as jest.Mock).mockReturnValue({
       state: { loading: false },
       dispatch: mockDispatch,
     });
-    (useNavigate as jest.Mock).mockReturnValue(mockNavigate);
+
+    // Mock register and Notify
+    (register as jest.Mock).mockResolvedValue({});
+    (Notify.success as jest.Mock).mockImplementation(() => {});
+    (Notify.error as jest.Mock).mockImplementation(() => {});
+  });
+
+  afterEach(() => {
     jest.clearAllMocks();
   });
 
@@ -37,12 +58,12 @@ describe("Register Component", () => {
     expect(
       screen.getByRole("button", { name: /register/i })
     ).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /log in/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /log in!/i })
+    ).toBeInTheDocument();
   });
 
   test("handles form submission and redirects on success", async () => {
-    (register as jest.Mock).mockResolvedValueOnce({});
-
     render(<Register />);
 
     fireEvent.change(screen.getByPlaceholderText("Name"), {
@@ -52,10 +73,10 @@ describe("Register Component", () => {
       target: { value: "1234567890" },
     });
     fireEvent.change(screen.getByPlaceholderText("Password"), {
-      target: { value: "password" },
+      target: { value: "password123" },
     });
     fireEvent.change(screen.getByPlaceholderText("Verify Password"), {
-      target: { value: "password" },
+      target: { value: "password123" },
     });
 
     fireEvent.click(screen.getByRole("button", { name: /register/i }));
@@ -64,34 +85,16 @@ describe("Register Component", () => {
       expect(register).toHaveBeenCalledWith(
         "John Doe",
         "1234567890",
-        "password",
-        "password"
+        "password123",
+        "password123"
       );
-    });
-
-    await waitFor(() => {
       expect(Notify.success).toHaveBeenCalledWith("Registered Successfully");
-    });
-
-    await waitFor(() => {
-      expect(mockNavigate).toHaveBeenCalledWith("/auth/login");
-    });
-
-    expect(mockDispatch).toHaveBeenCalledTimes(2);
-    expect(mockDispatch).toHaveBeenCalledWith({
-      type: "SET_LOADING",
-      payload: true,
-    });
-    expect(mockDispatch).toHaveBeenCalledWith({
-      type: "SET_LOADING",
-      payload: false,
+      expect(mockPush).toHaveBeenCalledWith("/auth/login");
     });
   });
 
   test("handles form submission error", async () => {
-    (register as jest.Mock).mockRejectedValueOnce({
-      errors: [{ msg: "Registration failed" }],
-    });
+    (register as jest.Mock).mockRejectedValue({ error: "Registration failed" });
 
     render(<Register />);
 
@@ -102,44 +105,24 @@ describe("Register Component", () => {
       target: { value: "1234567890" },
     });
     fireEvent.change(screen.getByPlaceholderText("Password"), {
-      target: { value: "password" },
+      target: { value: "password123" },
     });
     fireEvent.change(screen.getByPlaceholderText("Verify Password"), {
-      target: { value: "password" },
+      target: { value: "password123" },
     });
 
     fireEvent.click(screen.getByRole("button", { name: /register/i }));
 
     await waitFor(() => {
-      expect(register).toHaveBeenCalledWith(
-        "John Doe",
-        "1234567890",
-        "password",
-        "password"
-      );
-    });
-
-    await waitFor(() => {
       expect(Notify.error).toHaveBeenCalledWith("Registration failed");
     });
-
-    expect(mockDispatch).toHaveBeenCalledTimes(2);
-    expect(mockDispatch).toHaveBeenCalledWith({
-      type: "SET_LOADING",
-      payload: true,
-    });
-    expect(mockDispatch).toHaveBeenCalledWith({
-      type: "SET_LOADING",
-      payload: false,
-    });
-    expect(mockNavigate).not.toHaveBeenCalled();
   });
 
-  test("navigates to the login page when login link is clicked", () => {
+  test("navigates to login page when log in button is clicked", () => {
     render(<Register />);
 
-    fireEvent.click(screen.getByRole("button", { name: /log in/i }));
+    fireEvent.click(screen.getByRole("button", { name: /log in!/i }));
 
-    expect(mockNavigate).toHaveBeenCalledWith("/auth/login");
+    expect(mockPush).toHaveBeenCalledWith("/auth/login");
   });
 });

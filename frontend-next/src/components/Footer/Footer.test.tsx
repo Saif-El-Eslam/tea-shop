@@ -1,25 +1,17 @@
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import Footer from "./Footer";
-import { useAppContext } from "../../context/AppContext";
 
-// Mock the useAppContext hook
-jest.mock("../../context/AppContext", () => ({
-  useAppContext: jest.fn(),
-}));
-
-// Mock the useNavigate hook
-jest.mock("react-router-dom", () => ({
-  useNavigate: () => jest.fn(),
+// Mocking Next.js Image component
+jest.mock("next/image", () => ({
+  __esModule: true,
+  default: (props: any) => {
+    return <img {...props} />; // Mock the Image component with a regular img tag
+  },
 }));
 
 describe("Footer Component", () => {
   test("renders the footer with", () => {
-    (useAppContext as jest.Mock).mockReturnValue({
-      state: { user: null },
-      dispatch: jest.fn(),
-    });
-
     render(<Footer />);
 
     // get by href
@@ -47,11 +39,6 @@ describe("Footer Component", () => {
   });
 
   test("navigate to home when clicking on home", () => {
-    (useAppContext as jest.Mock).mockReturnValue({
-      state: { user: null },
-      dispatch: jest.fn(),
-    });
-
     render(<Footer />);
 
     // click on home
@@ -63,11 +50,6 @@ describe("Footer Component", () => {
   });
 
   test("navigate to teas when clicking on shop", () => {
-    (useAppContext as jest.Mock).mockReturnValue({
-      state: { user: null },
-      dispatch: jest.fn(),
-    });
-
     render(<Footer />);
 
     // click on shop
@@ -79,11 +61,6 @@ describe("Footer Component", () => {
   });
 
   test("navigate to about us when clicking on about us", () => {
-    (useAppContext as jest.Mock).mockReturnValue({
-      state: { user: null },
-      dispatch: jest.fn(),
-    });
-
     render(<Footer />);
 
     // click on about us
@@ -95,11 +72,6 @@ describe("Footer Component", () => {
   });
 
   test("navigate to contact when clicking on contact", () => {
-    (useAppContext as jest.Mock).mockReturnValue({
-      state: { user: null },
-      dispatch: jest.fn(),
-    });
-
     render(<Footer />);
 
     // click on contact

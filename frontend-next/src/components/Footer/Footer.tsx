@@ -1,12 +1,11 @@
 "use client";
-import React from "react";
 import facebookIcon from "../../assets/facebook.png";
 import instagramIcon from "../../assets/instagram.png";
 import Image from "next/image";
 import xIcon from "../../assets/x.png";
 import Link from "next/link";
 
-const Header: React.FC = () => {
+const Footer: React.FC = () => {
   return (
     <div
       className="flex flex-col items-center justify-center bg-lightBeige text-gray-50 w-dvw
@@ -67,4 +66,4 @@ const Header: React.FC = () => {
   );
 };
 
-export default Header;
+export default Footer;

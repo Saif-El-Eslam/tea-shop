@@ -9,7 +9,7 @@ import { register } from "@/services/AuthService";
 import { useAppContext } from "@/context/AppContext";
 import { setLoading } from "@/context/AppActions";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import Loading from "@/components/Loading/Loading";
 
 const Register: React.FC = () => {
   const router = useRouter();
@@ -19,6 +19,13 @@ const Register: React.FC = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [verifyPassword, setVerifyPassword] = useState("");
+
+  if (state.loading) {
+    return <Loading />;
+  }
+  if (state.user) {
+    router.push("/auth/login");
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

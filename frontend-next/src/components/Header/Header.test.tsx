@@ -2,15 +2,29 @@ import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import Header from "./Header";
 import { useAppContext } from "../../context/AppContext";
+import { useRouter } from "next/navigation";
 
 // Mock the useAppContext hook
 jest.mock("../../context/AppContext", () => ({
   useAppContext: jest.fn(),
 }));
 
-// Mock the useNavigate hook
-jest.mock("react-router-dom", () => ({
-  useNavigate: () => jest.fn(),
+// Mock the Next.js router
+jest.mock("next/navigation", () => ({
+  useRouter: jest.fn(),
+}));
+
+// Mock the Spinner component
+jest.mock("../helpers/Spinner", () => ({
+  __esModule: true,
+  default: ({ loading }: { loading: boolean }) =>
+    loading ? <div>Loading...</div> : null,
+}));
+
+// Mock the Next.js Image component
+jest.mock("next/image", () => ({
+  __esModule: true,
+  default: (props: any) => <img {...props} />, // Mock the Image component with a normal img tag
 }));
 
 describe("Header Component", () => {

@@ -9,13 +9,19 @@ import { login } from "@/services/AuthService";
 import Notify from "@/utils/Notify";
 import { useAppContext } from "@/context/AppContext";
 import { setUser, setLoading } from "@/context/AppActions";
-import Link from "next/link";
+import Loading from "@/components/Loading/Loading";
 
 const Login: React.FC = () => {
   const { state, dispatch } = useAppContext();
   const router = useRouter();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
+  if (state.loading) {
+    return <Loading />;
+  }
+  if (state.user) {
+    router.push("/");
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
