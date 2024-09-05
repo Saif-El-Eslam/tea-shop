@@ -26,7 +26,7 @@ export class Tea extends Model {
           allowNull: false,
         },
         type: {
-          type: DataTypes.ENUM("Green", "Black", "Herbal", "Oolong", "White"),
+          type: DataTypes.STRING, // DataTypes.ENUM("Green", "Black", "Herbal", "Oolong", "White"),
           allowNull: false,
         },
         description: {
