@@ -32,7 +32,7 @@ const loginController = async (req: any, res: any) => {
 
   try {
     const token = await login(phone_number, password);
-    return res.status(200).json({ token: token });
+    return res.status(200).json(token);
   } catch (error: any) {
     return res.status(500).send({ error: error.message });
   }

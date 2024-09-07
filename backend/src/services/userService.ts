@@ -64,7 +64,10 @@ export const login = async (phone_number: string, password: string) => {
   );
 
   await updateUser(user.id, { token });
-  return token;
+  return {
+    token,
+    role: user.role,
+  };
 };
 
 export const logout = async (id: string) => {
