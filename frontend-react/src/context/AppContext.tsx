@@ -18,8 +18,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
+
     if (token) {
-      dispatch({ type: SET_USER, payload: { ...state.user, token } });
+      dispatch({ type: SET_USER, payload: { ...state.user, token, role } });
     }
 
     dispatch({ type: SET_LOADING, payload: false });

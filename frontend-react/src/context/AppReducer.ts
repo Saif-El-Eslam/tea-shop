@@ -9,6 +9,7 @@ import {
 interface User {
   token: string;
   name?: string;
+  role: string;
 }
 
 interface Product {

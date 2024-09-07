@@ -10,7 +10,19 @@ const PrivateRoute: React.FC<{ children: React.ReactElement }> = ({
   const location = useLocation();
 
   if (state.loading) {
-    return <Spinner loading={true} />;
+    return (
+      <div className="fixed inset-0 flex items-center justify-center">
+        <Spinner loading={true} />
+      </div>
+    );
+  }
+
+  if (
+    state.user &&
+    state.user.role === "admin" &&
+    (location.pathname === "/home" || location.pathname === "/")
+  ) {
+    return <Navigate to="/teas" />;
   }
 
   return state.user ? (

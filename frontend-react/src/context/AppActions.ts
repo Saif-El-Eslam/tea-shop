@@ -5,7 +5,9 @@ export const REMOVE_PRODUCT = "REMOVE_PRODUCT";
 export const SET_LOADING = "SET_LOADING";
 
 // Action creators
-export const setUser = (user: { token: string; name?: string } | null) => ({
+export const setUser = (
+  user: { token: string; name?: string; role?: string } | null
+) => ({
   type: SET_USER,
   payload: user,
 });

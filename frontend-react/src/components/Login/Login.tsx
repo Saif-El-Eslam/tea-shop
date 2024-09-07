@@ -19,10 +19,10 @@ const Login: React.FC = () => {
     dispatch(setLoading(true));
     try {
       const res = await login(phoneNumber, password);
+      localStorage.setItem("role", res.role);
       localStorage.setItem("token", res.token);
-      dispatch(setUser({ ...state.user, token: res.token }));
-
-      navigate("/home");
+      dispatch(setUser({ ...state.user, token: res.token, role: res.role }));
+      res.role === "admin" ? navigate("/teas") : navigate("/");
     } catch (err: any) {
       err?.errors ? Notify.error(err.errors[0].msg) : Notify.error(err.error);
     }

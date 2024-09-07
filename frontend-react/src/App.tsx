@@ -24,12 +24,13 @@ const App: React.FC = () => {
   return (
     <AppProvider>
       {/* <Router> */}
-      <>
-        <div className="App bg-[#F5F5F5] min-h-dvh flex flex-col justify-between">
-          <header className="App-header">
-            <Header />
-          </header>
 
+      <div className="App min-h-screen flex flex-col bg-[#F5F5F5] overflow-hidden">
+        <header className="App-header">
+          <Header />
+        </header>
+
+        <main className="flex-grow overflow-auto">
           <Routes>
             <Route path="/auth/*" element={<AuthPage />} />
             <Route
@@ -63,22 +64,23 @@ const App: React.FC = () => {
               path="*"
               element={
                 // make a 404 page
-                <div className="flex flex-col items-center justify-center h-full text-alert font-bold text-2xl">
+                <div className="flex flex-col items-center justify-center h-[60vh] text-alert font-bold text-2xl">
                   <h1>404</h1>
                   <h2>Page not found</h2>
                 </div>
               }
             />
           </Routes>
+        </main>
 
-          {!isAuth && (
-            <footer className="App-footer">
-              <Footer />
-            </footer>
-          )}
-        </div>
-        <ToastContainer />
-      </>
+        {!isAuth && (
+          <footer className="App-footer">
+            <Footer />
+          </footer>
+        )}
+      </div>
+      <ToastContainer />
+
       {/* </Router> */}
     </AppProvider>
   );

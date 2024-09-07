@@ -1,7 +1,7 @@
 import React from "react";
 import { useAppContext } from "../../context/AppContext";
 import { setUser } from "../../context/AppActions";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import facebookIcon from "../../assets/facebook.png";
 import instagramIcon from "../../assets/instagram.png";
 import xIcon from "../../assets/x.png";
@@ -23,17 +23,19 @@ const Header: React.FC = () => {
       </div>
       <nav className="w-fit m-auto md:w-fit md:m-0 text-darkGray bold">
         <ul className="flex gap-6 h-20 items-center justify-center">
+          {state.user?.role === "user" && (
+            <li className="hover:text-darkGreen">
+              <Link to="/">Home</Link>
+            </li>
+          )}
           <li className="hover:text-darkGreen">
-            <a href="/">Home</a>
+            <Link to="/teas">Shop</Link>
           </li>
           <li className="hover:text-darkGreen">
-            <a href="/teas">Shop</a>
+            <Link to="/about">About Us</Link>
           </li>
           <li className="hover:text-darkGreen">
-            <a href="/about">About Us</a>
-          </li>
-          <li className="hover:text-darkGreen">
-            <a href="/contact">Contact</a>
+            <Link to="/contact">Contact</Link>
           </li>
         </ul>
       </nav>
