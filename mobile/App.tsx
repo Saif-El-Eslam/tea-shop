@@ -4,6 +4,8 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { AppProvider } from "./app/context/AppContext";
 import RootNavigator from "./app/navigation/RootNavigator";
+import colors from "./app/utils/colors";
+import Toast from "react-native-toast-message";
 
 export default function App() {
   return (
@@ -11,6 +13,7 @@ export default function App() {
       <NavigationContainer>
         <RootNavigator />
         <StatusBar style="auto" />
+        <Toast />
       </NavigationContainer>
     </AppProvider>
   );
@@ -19,7 +22,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colors.lightBeige,
     alignItems: "center",
     justifyContent: "center",
   },

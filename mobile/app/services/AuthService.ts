@@ -1,4 +1,6 @@
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { API_URL } from "@env";
 
 export const register = async (
   name: string,
@@ -8,16 +10,13 @@ export const register = async (
   role?: string
 ) => {
   try {
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/register`,
-      {
-        name,
-        phone_number,
-        password,
-        verify_password,
-        role,
-      }
-    );
+    const response = await axios.post(`${API_URL}/auth/register`, {
+      name,
+      phone_number,
+      password,
+      verify_password,
+      role,
+    });
     return response.data;
   } catch (error: any) {
     throw error.response.data;
@@ -26,15 +25,10 @@ export const register = async (
 
 export const login = async (phone_number: string, password: string) => {
   try {
-    console.log("HERE", process.env.NEXT_PUBLIC_API_URL);
-
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
-      {
-        phone_number,
-        password,
-      }
-    );
+    const response = await axios.post(`${API_URL}/auth/login`, {
+      phone_number,
+      password,
+    });
     return response.data;
   } catch (error: any) {
     throw error.response.data;
@@ -43,12 +37,13 @@ export const login = async (phone_number: string, password: string) => {
 
 export const logout = async () => {
   try {
+    const token = await AsyncStorage.getItem("token");
     const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/logout`,
+      `${API_URL}/auth/logout`,
       {},
       {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );

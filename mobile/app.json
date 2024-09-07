@@ -9,7 +9,7 @@
     "splash": {
       "image": "./app/assets/tea-shop-logo.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#F7F4E3"
     },
     "ios": {
       "supportsTablet": true
@@ -17,7 +17,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./app/assets/tea-shop-logo.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#F7F4E3"
       }
     },
     "web": {

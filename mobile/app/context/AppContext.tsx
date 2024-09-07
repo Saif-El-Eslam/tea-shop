@@ -1,8 +1,10 @@
 "use client";
 
 import React, { createContext, useReducer, ReactNode } from "react";
-import { appReducer, initialState, State, Action } from "./AppReducer";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect } from "react";
+
+import { appReducer, initialState, State, Action } from "./AppReducer";
 import { SET_LOADING, SET_USER } from "./AppActions";
 
 // Create a context with a default value
@@ -19,11 +21,21 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(appReducer, initialState);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      dispatch({ type: SET_USER, payload: { ...state.user, token } });
-    }
+    const getUser = async () => {
+      dispatch({ type: SET_LOADING, payload: true });
 
+      try {
+        const user = await AsyncStorage.getItem("token");
+        if (user) {
+          dispatch({ type: SET_USER, payload: JSON.parse(user) });
+        }
+        console.log("USER", state.user);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getUser();
     dispatch({ type: SET_LOADING, payload: false });
   }, []);
 

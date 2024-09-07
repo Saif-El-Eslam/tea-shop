@@ -1,5 +1,4 @@
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import Toast from "react-native-toast-message";
 
 const Notify: {
   error: (message: string) => void;
@@ -7,13 +6,25 @@ const Notify: {
   info: (message: string) => void;
 } = {
   error: (message: string) => {
-    toast.error(message);
+    Toast.show({
+      type: "error",
+      text1: message,
+      position: "top",
+    });
   },
   success: (message: string) => {
-    toast.success(message);
+    Toast.show({
+      type: "success",
+      text1: message,
+      position: "top",
+    });
   },
   info: (message: string) => {
-    toast.info(message);
+    Toast.show({
+      type: "info",
+      text1: message,
+      position: "top",
+    });
   },
 };
 
