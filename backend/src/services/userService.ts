@@ -50,6 +50,7 @@ export const login = async (phone_number: string, password: string) => {
     {
       id: user.id,
       phone_number,
+      role: user.role,
       "https://hasura.io/jwt/claims": {
         "x-hasura-allowed-roles": [user.role, "default"],
         "x-hasura-default-role": user.role,
