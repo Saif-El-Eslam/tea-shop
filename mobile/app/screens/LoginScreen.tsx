@@ -43,8 +43,8 @@ const LoginScreen = () => {
       await AsyncStorage.setItem("token", JSON.stringify(res.token));
       // navigation.navigate("Main");
     } catch (error: any) {
-      if (error.errors) {
-        return Notify.error(error.errors[0].msg);
+      if (error?.errors) {
+        return Notify.error(error?.errors[0]?.msg);
       }
       Notify.error(error.error || "An error occurred");
     } finally {

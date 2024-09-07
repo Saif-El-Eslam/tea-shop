@@ -17,9 +17,10 @@ export const register = async (
       verify_password,
       role,
     });
+
     return response.data;
   } catch (error: any) {
-    throw error.response.data;
+    throw error.response?.data;
   }
 };
 
@@ -29,9 +30,12 @@ export const login = async (phone_number: string, password: string) => {
       phone_number,
       password,
     });
+
     return response.data;
   } catch (error: any) {
-    throw error.response.data;
+    console.error("ERROR", error);
+
+    throw error.response?.data;
   }
 };
 
