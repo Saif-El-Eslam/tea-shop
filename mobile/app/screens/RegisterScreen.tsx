@@ -36,7 +36,10 @@ const RegisterScreen = () => {
       await register(name, phoneNumber, password, confirmPassword);
       navigation.navigate("Login");
     } catch (error: any) {
-      Notify.error(error.errors[0].msg || "An error occurred");
+      if (error?.errors) {
+        return Notify.error(error?.errors[0]?.msg);
+      }
+      Notify.error(error.error || "An error occurred");
     } finally {
       dispatch(setLoading(false));
     }

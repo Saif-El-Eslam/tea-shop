@@ -89,7 +89,12 @@ const LoginScreen = () => {
           {state.loading ? (
             <View style={styles.buttonContent}>
               <Text style={styles.buttonText}>Logging in</Text>
-              <DotIndicator count={3} size={6} color={colors.lightBeige} />
+              <DotIndicator
+                count={3}
+                size={6}
+                color={colors.lightBeige}
+                style={styles.indecator}
+              />
             </View>
           ) : (
             <Text style={styles.buttonText}>Login</Text>
@@ -135,7 +140,7 @@ const styles = StyleSheet.create({
   formContainer: {
     width: "100%",
     paddingHorizontal: 16,
-    justifyContent: "center", // Center the form elements
+    justifyContent: "center",
     marginVertical: 75,
   },
   inputGroup: {
@@ -168,9 +173,10 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   buttonText: {
-    color: "#FFF",
+    color: colors.lightBeige,
     fontSize: 16,
   },
+  indecator: {},
   footer: {
     marginTop: 16,
     flexDirection: "row",
