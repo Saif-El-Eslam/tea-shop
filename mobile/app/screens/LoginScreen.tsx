@@ -46,7 +46,10 @@ const LoginScreen = () => {
       if (error?.errors) {
         return Notify.error(error?.errors[0]?.msg);
       }
-      Notify.error(error.error || "An error occurred");
+      if (error?.error) {
+        return Notify.error(error?.error);
+      }
+      Notify.error(error || "An error occurred");
     } finally {
       dispatch(setLoading(false));
     }
