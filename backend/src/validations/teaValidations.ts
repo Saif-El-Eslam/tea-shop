@@ -15,7 +15,13 @@ const createTea: any[] = [
     .notEmpty()
     .withMessage("Price per unit is required")
     .isNumeric()
-    .withMessage("Price per unit must be a number"),
+    .withMessage("Price per unit must be a number")
+    .custom((value) => {
+      if (value <= 0) {
+        throw new Error("Price per unit must be greater than 0");
+      }
+      return true;
+    }),
   body("quantity")
     .notEmpty()
     .withMessage("Quantity is required")
@@ -48,7 +54,13 @@ const updateTea: any[] = [
   body("price_per_unit")
     .optional()
     .isNumeric()
-    .withMessage("Price per unit must be a number"),
+    .withMessage("Price per unit must be a number")
+    .custom((value) => {
+      if (value <= 0) {
+        throw new Error("Price per unit must be greater than 0");
+      }
+      return true;
+    }),
   body("quantity")
     .optional()
     .isInt()

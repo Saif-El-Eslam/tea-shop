@@ -62,7 +62,9 @@ const CreateUpdateTeaComponent: React.FC<Props> = ({
         onSuccess(newTew);
       }
     } catch (error: any) {
-      Notify.error(error.message || "An error occurred.");
+      error?.errors
+        ? Notify.error(error.errors[0].msg)
+        : Notify.error(error.error || "An error occurred.");
     } finally {
       setIsSubmitting(false);
     }

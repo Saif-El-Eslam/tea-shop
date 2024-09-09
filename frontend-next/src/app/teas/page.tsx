@@ -13,6 +13,7 @@ import homeLogo from "../../assets/home.png";
 import CreateLogo from "../../assets/create-white.png";
 import Notify from "../../utils/Notify";
 import { TeaType } from "../../Types/types";
+import Loading from "@/components/Loading/Loading";
 
 const TeasPage: React.FC = () => {
   const router = useRouter();
@@ -100,6 +101,21 @@ const TeasPage: React.FC = () => {
     if (state.products.length === 0) handleGetTeas();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    if (state.loading) {
+      return;
+    }
+    if (!state.user) {
+      router.push("/auth/login");
+    }
+    if (state.user?.role === "admin") {
+      router.push("/teas");
+    }
+  }, [state]); // eslint-disable-line
+
+  if (state.loading) {
+    return <Loading />;
+  }
   return (
     <div className="flex flex-col flex-grow">
       <div className="flex items-center h-16 bg-gradient-to-r from-darkGreen to-[#98FF98] px-12 md:px-48">
