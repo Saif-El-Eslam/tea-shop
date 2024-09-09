@@ -129,7 +129,7 @@ const TeasPage: React.FC = () => {
         </div>
       )}
 
-      <div className="flex flex-wrap justify-center gap-4 m-8 md:px-32">
+      <div className="flex flex-wrap justify-center gap-4 m-8 lg:px-32">
         {state.products.map((tea) => (
           <TeaCard
             key={tea.id}
