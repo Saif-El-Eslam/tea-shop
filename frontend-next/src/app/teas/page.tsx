@@ -28,7 +28,9 @@ const TeasPage: React.FC = () => {
       localStorage.setItem("teas", JSON.stringify(teas));
       dispatch(setProducts(teas));
     } catch (err: any) {
-      err?.errors ? Notify.error(err.errors[0].msg) : Notify.error(err.error);
+      err?.errors
+        ? Notify.error(err.errors[0].msg)
+        : Notify.error(err.error || "An error occurred");
     } finally {
       dispatch(setLoading(false));
     }
@@ -44,7 +46,9 @@ const TeasPage: React.FC = () => {
         Notify.success("Tea deleted successfully!");
       })
       .catch((err: any) => {
-        err?.errors ? Notify.error(err.errors[0].msg) : Notify.error(err.error);
+        err?.errors
+          ? Notify.error(err.errors[0].msg)
+          : Notify.error(err.error || "An error occurred");
       });
     // .finally(() => {});
   };
