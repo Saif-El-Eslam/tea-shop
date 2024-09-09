@@ -14,7 +14,7 @@ const Header: React.FC = () => {
         md:flex-row md:justify-between md:items-center md:gap-8 md:px-8"
     >
       <div
-        className="w-full bg-lightBeige md:w-fit cursor-pointer"
+        className="w-full bg-lightBeige md:w-fit cursor-pointer flex items-center justify-center"
         onClick={() => navigate("/home")}
       >
         <img src={Logo} alt="tea-shop-logo" className="h-14 m-auto" />

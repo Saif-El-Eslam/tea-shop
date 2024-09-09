@@ -2,7 +2,7 @@
 import Logo from "../../assets/tea-shop-logo.png";
 import React from "react";
 import { useAppContext } from "../../context/AppContext";
-import { setUser } from "../../context/AppActions";
+import { setUser, setProducts } from "../../context/AppActions";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Spinner from "../helpers/Spinner";
@@ -14,11 +14,11 @@ const Header: React.FC = () => {
 
   return (
     <div
-      className="flex flex-col items-center justify-center  bg-darkGray text-gray-50
+      className="flex flex-col items-center justify-center bg-darkGray text-gray-50
         md:flex-row md:justify-between md:items-center md:gap-8 md:px-8"
     >
       <div
-        className="w-full bg-lightBeige md:w-fit cursor-pointer"
+        className="w-full bg-lightBeige md:w-fit cursor-pointer flex items-center justify-center"
         onClick={() => router.push("/")}
       >
         <Image src={Logo} alt="tea-shop-logo" width={50} height={50} />
@@ -34,7 +34,7 @@ const Header: React.FC = () => {
               </li>
             )}
 
-            {state.user && (
+            {state.user && state.user?.role === "user" && (
               <li className="hover:text-gray-200">
                 <Link href="/">Home</Link>
               </li>
@@ -56,7 +56,10 @@ const Header: React.FC = () => {
                 className="hover:text-gray-200"
                 onClick={() => {
                   localStorage.removeItem("token");
+                  localStorage.removeItem("role");
+                  localStorage.removeItem("teas");
                   dispatch(setUser(null));
+                  dispatch(setProducts([]));
                 }}
               >
                 <Link href="/auth/login">Logout</Link>

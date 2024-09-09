@@ -3,7 +3,7 @@
 import React, { createContext, useReducer, ReactNode } from "react";
 import { appReducer, initialState, State, Action } from "./AppReducer";
 import { useEffect } from "react";
-import { SET_LOADING, SET_USER } from "./AppActions";
+import { SET_LOADING, SET_USER, SET_PRODUCTS } from "./AppActions";
 
 // Create a context with a default value
 const AppContext = createContext<{
@@ -20,9 +20,15 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
+    // const teas = JSON.parse(localStorage.getItem("teas") as string);
+
     if (token) {
-      dispatch({ type: SET_USER, payload: { ...state.user, token } });
+      dispatch({ type: SET_USER, payload: { ...state.user, token, role } });
     }
+    // if (teas) {
+    //   dispatch({ type: SET_PRODUCTS, payload: teas });
+    // }
 
     dispatch({ type: SET_LOADING, payload: false });
   }, []);

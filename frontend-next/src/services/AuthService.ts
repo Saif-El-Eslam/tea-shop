@@ -26,8 +26,6 @@ export const register = async (
 
 export const login = async (phone_number: string, password: string) => {
   try {
-    console.log("HERE", process.env.NEXT_PUBLIC_API_URL);
-
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
       {
