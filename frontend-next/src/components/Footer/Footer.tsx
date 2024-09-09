@@ -11,10 +11,10 @@ const Footer: React.FC = () => {
   const { state } = useAppContext();
   return (
     <div
-      className="flex flex-col items-center justify-center bg-lightBeige text-gray-50 w-dvw p-2
+      className="flex flex-col items-center justify-center bg-lightBeige text-gray-50 p-2
         md:flex-row md:justify-between md:items-center md:gap-8 md:px-8"
     >
-      <div className="w-full text-darkGreen md:w-fit flex items-center justify-center">
+      <div className="w-fit text-darkGreen md:w-fit flex items-center justify-center">
         Copyright 2024 Tea Shop
       </div>
       <nav className="w-fit m-auto md:w-fit md:m-0 text-darkGray bold">

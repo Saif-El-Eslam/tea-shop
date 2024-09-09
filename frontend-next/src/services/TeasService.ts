@@ -13,7 +13,10 @@ export const getTeas = async () => {
     );
     return response.data;
   } catch (error: any) {
-    throw error.response.data;
+    if (error.response) {
+      throw error.response.data;
+    }
+    throw error;
   }
 };
 

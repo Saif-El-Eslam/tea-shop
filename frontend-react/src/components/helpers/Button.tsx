@@ -8,10 +8,10 @@ interface ButtonProps {
 
 const Button: React.FC<ButtonProps> = ({ loading, type, children }) => {
   return (
-    <div className="text-white">
+    <div className="text-white w-full">
       <button
         type={type}
-        className="min-w-80 my-2 py-2 px-4 border border-gray rounded-lg bg-yellow hover:bg-yellow-500"
+        className="w-full max-w-80 my-2 py-2 px-4 border border-gray rounded-lg bg-yellow hover:bg-yellow-500"
       >
         {children}
       </button>

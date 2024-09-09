@@ -102,11 +102,11 @@ const TeasPage: React.FC = () => {
 
   return (
     <div className="flex flex-col flex-grow">
-      <div className="flex items-center gap-4 bg-gradient-to-r from-darkGreen to-[#98FF98] px-12 md:px-48">
+      <div className="flex items-center h-16 bg-gradient-to-r from-darkGreen to-[#98FF98] px-12 md:px-48">
         <Image
           src={homeLogo}
           alt="home-logo"
-          className={`h-7 w-7 ${
+          className={`h-5 w-5 ${
             state.user?.role === "user" &&
             "cursor-pointer hover:scale-110 transform transition-transform"
           }`}
@@ -114,7 +114,9 @@ const TeasPage: React.FC = () => {
             state.user?.role === "user" && router.push("/");
           }}
         />
-        <h1 className="text-2xl font-bold py-4"> {">"} Teas Types</h1>
+        <h1 className="text-sm py-4 text-white">
+          <span className="font-bold px-2">{">"}</span> Teas Types
+        </h1>
       </div>
 
       {state.user?.role === "admin" && (
