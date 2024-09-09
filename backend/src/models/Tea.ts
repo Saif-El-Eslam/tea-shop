@@ -9,7 +9,7 @@ export class Tea extends Model {
   public type!: string;
   public description!: string;
   public price_per_unit!: number;
-  public total_quantity!: number;
+  public quantity!: number;
   public readonly created_at!: Date;
   public readonly updated_at!: Date;
 

@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes";
+import teaRoutes from "./routes/teaRoutes";
 import cors from "cors";
 
 const app = express();
@@ -13,5 +14,6 @@ app.use(cors());
 
 // Add routes with /api prefix
 app.use("/api/auth", authRoutes);
+app.use("/api/teas", teaRoutes);
 
 export default app;
