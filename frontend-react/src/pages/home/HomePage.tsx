@@ -1,4 +1,3 @@
-import { useAppContext } from "../../context/AppContext";
 import { useNavigate } from "react-router-dom";
 
 import Home1 from "../../assets/home-1.png";
@@ -6,8 +5,6 @@ import Home2 from "../../assets/home-2.png";
 import Home3 from "../../assets/home-3.png";
 
 const HomePage: React.FC = () => {
-  const { state, dispatch } = useAppContext();
-
   const navigate = useNavigate();
 
   return (

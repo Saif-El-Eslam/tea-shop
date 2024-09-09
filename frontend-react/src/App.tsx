@@ -12,6 +12,9 @@ import Home from "./pages/home/HomePage";
 import Teas from "./pages/teas/TeasPage";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
+import ContactUsPage from "./pages/contactUs/ContactUsPage";
+import AboutUsPage from "./pages/aboutUs/AboutUsPage";
+
 import { ToastContainer } from "react-toastify";
 import { AppProvider } from "./context/AppContext";
 import { useLocation } from "react-router-dom";
@@ -49,6 +52,8 @@ const App: React.FC = () => {
                 </PrivateRoute>
               }
             />
+            <Route path="/contact" element={<ContactUsPage />} />
+            <Route path="/about" element={<AboutUsPage />} />
 
             <Route path="/register/*" element={<AuthPage />} />
             <Route path="/login/*" element={<AuthPage />} />
