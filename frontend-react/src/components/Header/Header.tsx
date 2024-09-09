@@ -1,7 +1,7 @@
 import Logo from "../../assets/tea-shop-logo.png";
 import React from "react";
 import { useAppContext } from "../../context/AppContext";
-import { setUser } from "../../context/AppActions";
+import { setUser, setProducts } from "../../context/AppActions";
 import { useNavigate, Link } from "react-router-dom";
 
 const Header: React.FC = () => {
@@ -49,7 +49,10 @@ const Header: React.FC = () => {
               className="hover:text-gray-200"
               onClick={() => {
                 localStorage.removeItem("token");
+                localStorage.removeItem("role");
+                localStorage.removeItem("teas");
                 dispatch(setUser(null));
+                dispatch(setProducts([]));
               }}
             >
               <Link to="/auth/login">Logout</Link>
