@@ -7,5 +7,7 @@ import AppStackNavigator from "./AppStack";
 export default function RootNavigator() {
   const { state } = useAppContext();
 
+  console.log(state);
+
   return state.user ? <AppStackNavigator /> : <AuthStackNavigator />;
 }

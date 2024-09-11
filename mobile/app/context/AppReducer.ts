@@ -2,20 +2,19 @@ import {
   SET_USER,
   ADD_PRODUCT,
   REMOVE_PRODUCT,
+  SET_PRODUCTS,
   SET_LOADING,
 } from "./AppActions";
+import { TeaType } from "../types/types";
 
 // Define types for User and Product
 interface User {
   token: string;
   name?: string;
+  role: string;
 }
 
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-}
+interface Product extends TeaType {}
 
 export interface State {
   user: User | null;
@@ -40,6 +39,8 @@ export const appReducer = (state: State, action: Action): State => {
       return { ...state, user: action.payload };
     case SET_LOADING:
       return { ...state, loading: action.payload };
+    case SET_PRODUCTS:
+      return { ...state, teas: action.payload };
     case ADD_PRODUCT:
       return { ...state, teas: [...state.teas, action.payload] };
     case REMOVE_PRODUCT:

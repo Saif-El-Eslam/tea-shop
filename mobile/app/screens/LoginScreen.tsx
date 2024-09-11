@@ -39,9 +39,12 @@ const LoginScreen = () => {
     try {
       dispatch(setLoading(true));
       const res = await login(phoneNumber, password);
-      dispatch(setUser({ ...state.user, token: res.token }));
       await AsyncStorage.setItem("token", JSON.stringify(res.token));
-      // navigation.navigate("Main");
+      await AsyncStorage.setItem("role", JSON.stringify(res.role));
+      dispatch(setUser({ ...state.user, token: res.token, role: res.role }));
+      // res.role === "admin"
+      //   ? navigation.navigate("Teas")
+      //   : navigation.navigate("Main");
     } catch (error: any) {
       if (error?.errors) {
         return Notify.error(error?.errors[0]?.msg);
