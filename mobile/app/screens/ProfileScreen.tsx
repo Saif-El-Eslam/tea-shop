@@ -13,7 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import { LoginScreenNavigationProp } from "app/types/navigation";
 import { useAppContext } from "../context/AppContext";
-import { setUser } from "../context/AppActions";
+import { setUser, setProducts } from "../context/AppActions";
 
 const { width } = Dimensions.get("window");
 const UserIcon = require("app/assets/user.png");
@@ -33,9 +33,15 @@ const ProfileScreen: React.FC = () => {
   }, []);
 
   const handleLogout = async () => {
+    state?.user?.role === "admin"
+      ? navigation.navigate("Teas")
+      : navigation.navigate("Main");
     dispatch(setUser(null));
+    dispatch(setProducts([]));
+
     await AsyncStorage.removeItem("token");
     await AsyncStorage.removeItem("role");
+    await AsyncStorage.removeItem("teas");
   };
 
   return (

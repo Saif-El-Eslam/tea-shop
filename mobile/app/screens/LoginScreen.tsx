@@ -42,9 +42,9 @@ const LoginScreen = () => {
       await AsyncStorage.setItem("token", JSON.stringify(res.token));
       await AsyncStorage.setItem("role", JSON.stringify(res.role));
       dispatch(setUser({ ...state.user, token: res.token, role: res.role }));
-      // res.role === "admin"
-      //   ? navigation.navigate("Teas")
-      //   : navigation.navigate("Main");
+      res.role === "admin"
+        ? navigation.navigate("Teas")
+        : navigation.navigate("Main");
     } catch (error: any) {
       if (error?.errors) {
         return Notify.error(error?.errors[0]?.msg);

@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { DotIndicator } from "react-native-indicators";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { LoginScreenNavigationProp } from "app/types/navigation";
 import { useAppContext } from "app/context/AppContext";
@@ -35,7 +36,7 @@ const TeasScreen: React.FC = () => {
     dispatch(setLoading(true));
     try {
       const teas = await getTeas();
-      localStorage.setItem("teas", JSON.stringify(teas));
+      await AsyncStorage.setItem("teas", JSON.stringify(teas));
       dispatch(setProducts(teas));
     } catch (err: any) {
       err?.errors ? Notify.error(err.errors[0].msg) : Notify.error(err.error);
@@ -48,7 +49,7 @@ const TeasScreen: React.FC = () => {
     try {
       await deleteTea(id);
       dispatch(setProducts(state.teas.filter((tea) => tea.id !== id)));
-      localStorage.setItem("teas", JSON.stringify(state.teas));
+      await AsyncStorage.setItem("teas", JSON.stringify(state.teas));
       Notify.success("Tea deleted successfully!");
     } catch (err: any) {
       err?.errors ? Notify.error(err.errors[0].msg) : Notify.error(err.error);
@@ -70,7 +71,7 @@ const TeasScreen: React.FC = () => {
     setSelectedTea(null);
   };
 
-  const onSuccessfulCreateUpdate = (tea: TeaType) => {
+  const onSuccessfulCreateUpdate = async (tea: TeaType) => {
     const teaForDispatch = { ...tea };
     if (state.teas.some((t) => t.id === tea.id)) {
       dispatch(
@@ -81,7 +82,7 @@ const TeasScreen: React.FC = () => {
     } else {
       dispatch(addProduct(teaForDispatch));
     }
-    localStorage.setItem("teas", JSON.stringify(state.teas));
+    await AsyncStorage.setItem("teas", JSON.stringify(state.teas));
     setCreateUpdateOpen(false);
     setSelectedTea(null);
   };
@@ -99,7 +100,7 @@ const TeasScreen: React.FC = () => {
         >
           <Image source={homeLogo} style={styles.logo} />
         </TouchableHighlight>
-        <Text style={styles.title}>Teas Types</Text>
+        <Text style={styles.title}>{">"} Teas Types</Text>
       </View> */}
 
       {state.user?.role === "admin" && (
@@ -159,7 +160,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     height: 60,
-    backgroundColor: colors.darkGreen,
+    backgroundColor: colors.brown,
     paddingHorizontal: 20,
   },
   touchableHighlight: {},
