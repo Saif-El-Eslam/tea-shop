@@ -1,4 +1,4 @@
-import axios from "axios";
+import apiClient from "./ApiClient";
 
 export const register = async (
   name: string,
@@ -8,16 +8,13 @@ export const register = async (
   role?: string
 ) => {
   try {
-    const response = await axios.post(
-      `${process.env.REACT_APP_API_URL}/auth/register`,
-      {
-        name,
-        phone_number,
-        password,
-        verify_password,
-        role,
-      }
-    );
+    const response = await apiClient.post("/auth/register", {
+      name,
+      phone_number,
+      password,
+      verify_password,
+      role,
+    });
     return response.data;
   } catch (error: any) {
     throw error.response.data;
@@ -26,13 +23,10 @@ export const register = async (
 
 export const login = async (phone_number: string, password: string) => {
   try {
-    const response = await axios.post(
-      `${process.env.REACT_APP_API_URL}/auth/login`,
-      {
-        phone_number,
-        password,
-      }
-    );
+    const response = await apiClient.post("/auth/login", {
+      phone_number,
+      password,
+    });
     return response.data;
   } catch (error: any) {
     throw error.response.data;
@@ -41,15 +35,7 @@ export const login = async (phone_number: string, password: string) => {
 
 export const logout = async () => {
   try {
-    const response = await axios.post(
-      `${process.env.REACT_APP_API_URL}/auth/logout`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      }
-    );
+    const response = await apiClient.post("/auth/logout");
     return response.data;
   } catch (error: any) {
     throw error.response.data;

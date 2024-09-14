@@ -4,6 +4,8 @@ import "./index.css";
 import "./output.css";
 import App from "./App";
 import { BrowserRouter as Router } from "react-router-dom";
+import { ApolloProvider } from "@apollo/client";
+import client from "./graphQL/apolloClient";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -11,7 +13,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Router>
-      <App />
+      <ApolloProvider client={client}>
+        <App />
+      </ApolloProvider>
     </Router>
   </React.StrictMode>
 );

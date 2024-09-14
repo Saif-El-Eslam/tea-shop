@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
+import CartIcon from "../../components/Cart/CartIcon";
 import Home1 from "../../assets/home-1.png";
 import Home2 from "../../assets/home-2.png";
 import Home3 from "../../assets/home-3.png";
@@ -73,6 +74,8 @@ const HomePage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      <CartIcon />
     </div>
   );
 };

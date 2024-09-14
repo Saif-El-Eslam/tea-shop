@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+
 import Input from "../helpers/Input";
 import Button from "../helpers/Button";
 import Spinner from "../helpers/Spinner";
@@ -19,8 +21,12 @@ const Login: React.FC = () => {
     dispatch(setLoading(true));
     try {
       const res = await login(phoneNumber, password);
-      localStorage.setItem("role", res.role);
+
+      const decoded: any = jwtDecode(res.token);
+      localStorage.setItem("id", decoded.id);
+      localStorage.setItem("role", decoded.role);
       localStorage.setItem("token", res.token);
+
       dispatch(setUser({ ...state.user, token: res.token, role: res.role }));
       res.role === "admin" ? navigate("/teas") : navigate("/");
     } catch (err: any) {

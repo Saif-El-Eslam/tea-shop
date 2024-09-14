@@ -4,11 +4,15 @@ import {
   REMOVE_PRODUCT,
   SET_PRODUCTS,
   SET_LOADING,
+  Add_CART,
+  REMOVE_CART,
+  SET_CART,
 } from "./AppActions";
 import { TeaType } from "../Types/types";
 
 // Define types for User and Product
 interface User {
+  id: string;
   token: string;
   name?: string;
   role: string;
@@ -16,9 +20,17 @@ interface User {
 
 interface Product extends TeaType {}
 
+interface CartItem {
+  productId: string;
+  quantityInCart: number;
+  subTotal: number;
+  price_per_unit: number;
+}
+
 export interface State {
   user: User | null;
   products: Product[];
+  cart: CartItem[];
   loading: boolean;
 }
 
@@ -30,6 +42,7 @@ export interface Action {
 export const initialState: State = {
   user: null,
   products: [],
+  cart: [],
   loading: true,
 };
 
@@ -50,6 +63,76 @@ export const appReducer = (state: State, action: Action): State => {
           (product) => product.id !== action.payload
         ),
       };
+    case Add_CART:
+      const existingItemIndex = state.cart.findIndex(
+        (item) => item.productId === action.payload.productId
+      );
+
+      if (existingItemIndex !== -1) {
+        const updatedCart = state.cart.map((item, index) => {
+          if (index === existingItemIndex) {
+            return {
+              ...item,
+              quantityInCart: item.quantityInCart + 1,
+              subTotal: item.subTotal + item.price_per_unit,
+            };
+          }
+          return item;
+        });
+
+        return {
+          ...state,
+          cart: updatedCart,
+        };
+      } else {
+        return {
+          ...state,
+          cart: [
+            ...state.cart,
+            {
+              productId: action.payload.productId,
+              quantityInCart: 1,
+              subTotal: parseFloat(action.payload.price_per_unit),
+              price_per_unit: parseFloat(action.payload.price_per_unit),
+            },
+          ],
+        };
+      }
+    case REMOVE_CART:
+      const itemIndex = state.cart.findIndex(
+        (item) => item.productId === action.payload
+      );
+
+      if (itemIndex !== -1) {
+        const item = state.cart[itemIndex];
+
+        if (item.quantityInCart > 1) {
+          return {
+            ...state,
+            cart: state.cart.map((cartItem, index) => {
+              if (index === itemIndex) {
+                return {
+                  ...cartItem,
+                  quantityInCart: cartItem.quantityInCart - 1,
+                  subTotal: cartItem.subTotal - cartItem.price_per_unit,
+                };
+              }
+              return cartItem;
+            }),
+          };
+        } else {
+          return {
+            ...state,
+            cart: state.cart.filter(
+              (cartItem) => cartItem.productId !== action.payload
+            ),
+          };
+        }
+      }
+
+      return state;
+    case SET_CART:
+      return { ...state, cart: action.payload };
     default:
       return state;
   }

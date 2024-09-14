@@ -48,6 +48,7 @@ const Header: React.FC = () => {
             <li
               className="hover:text-gray-200"
               onClick={() => {
+                localStorage.removeItem("id");
                 localStorage.removeItem("token");
                 localStorage.removeItem("role");
                 localStorage.removeItem("teas");

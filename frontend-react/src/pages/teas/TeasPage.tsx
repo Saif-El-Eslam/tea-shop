@@ -2,15 +2,21 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useAppContext } from "../../context/AppContext";
-import { setLoading, setProducts, addProduct } from "../../context/AppActions";
+import {
+  setLoading,
+  setProducts,
+  addProduct,
+  addCart,
+} from "../../context/AppActions";
 import { getTeas, deleteTea } from "../../services/TeasService";
 
 import TeaCard from "../../components/TeaCard/TeaCard";
 import CreateUpdateTeaComponent from "../../components/CreateUpdateTea/CreateUpdateTea";
-import homeLogo from "../../assets/home.png";
-import CreateLogo from "../../assets/create-white.png";
+import CartIcon from "../../components/Cart/CartIcon";
 import Notify from "../../utils/Notify";
 import { TeaType } from "../../Types/types";
+import homeLogo from "../../assets/home.png";
+import CreateLogo from "../../assets/create-white.png";
 
 const TeasPage: React.FC = () => {
   const navigate = useNavigate();
@@ -31,7 +37,15 @@ const TeasPage: React.FC = () => {
     }
   };
 
-  const handleBuy = () => {};
+  const handleBuy = (id: string, price: number) => {
+    dispatch(
+      addCart({
+        productId: id,
+        price_per_unit: price,
+      })
+    );
+    Notify.success("Tea added to cart!");
+  };
 
   const handleDelete = async (id: string) => {
     return deleteTea(id)
@@ -140,7 +154,7 @@ const TeasPage: React.FC = () => {
             pricePerUnit={tea.price_per_unit}
             quantityLeft={tea.quantity}
             isAdmin={state.user?.role === "admin"}
-            onBuy={handleBuy}
+            onBuy={() => handleBuy(tea.id, tea.price_per_unit)}
             onDelete={() => handleDelete(tea.id)}
             onUpdate={() => handleUpdate(tea)}
           />
@@ -154,6 +168,8 @@ const TeasPage: React.FC = () => {
           onClose={handleClosePopup}
         />
       )}
+
+      {state.user?.role === "user" && <CartIcon />}
     </div>
   );
 };

@@ -17,12 +17,12 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(appReducer, initialState);
 
   useEffect(() => {
+    const id = localStorage.getItem("id");
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
     // const teas = JSON.parse(localStorage.getItem("teas") as string);
-
     if (token) {
-      dispatch({ type: SET_USER, payload: { ...state.user, token, role } });
+      dispatch({ type: SET_USER, payload: { ...state.user, token, role, id } });
     }
     // if (teas) {
     //   dispatch({ type: SET_PRODUCTS, payload: teas });

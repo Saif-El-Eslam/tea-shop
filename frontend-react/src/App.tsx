@@ -18,6 +18,7 @@ import AboutUsPage from "./pages/aboutUs/AboutUsPage";
 import { ToastContainer } from "react-toastify";
 import { AppProvider } from "./context/AppContext";
 import { useLocation } from "react-router-dom";
+import CartPage from "./pages/cart/Cart";
 
 const App: React.FC = () => {
   // is auth route ?
@@ -41,6 +42,14 @@ const App: React.FC = () => {
               element={
                 <PrivateRoute>
                   <Teas />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/cart"
+              element={
+                <PrivateRoute>
+                  <CartPage />
                 </PrivateRoute>
               }
             />
