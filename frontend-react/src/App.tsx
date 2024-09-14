@@ -10,6 +10,7 @@ import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import AuthPage from "./pages/auth/AuthPage";
 import Home from "./pages/home/HomePage";
 import Teas from "./pages/teas/TeasPage";
+import OrdersPage from "./pages/orders/OrdersPage";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import ContactUsPage from "./pages/contactUs/ContactUsPage";
@@ -42,6 +43,14 @@ const App: React.FC = () => {
               element={
                 <PrivateRoute>
                   <Teas />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/orders"
+              element={
+                <PrivateRoute>
+                  <OrdersPage />
                 </PrivateRoute>
               }
             />

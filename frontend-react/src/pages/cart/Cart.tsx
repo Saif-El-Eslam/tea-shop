@@ -24,13 +24,7 @@ const CartPage: React.FC = () => {
       price_per_unit: item.price_per_unit,
       total_price: item.subTotal,
     }));
-    console.log({
-      totalPrice: state.cart.reduce((acc, item) => acc + item.subTotal, 0),
-      userId: state.user?.id,
-      orderItems: {
-        data: products,
-      },
-    });
+
     try {
       await insertOrder({
         variables: {
@@ -43,7 +37,9 @@ const CartPage: React.FC = () => {
       dispatch(setCart([]));
       navigate("/teas");
     } catch (err: any) {
-      console.error(err);
+      err?.errors
+        ? Notify.error(err.errors[0].message)
+        : Notify.error(err.message);
     }
   };
 

@@ -58,7 +58,7 @@ const TeasPage: React.FC = () => {
         err?.errors ? Notify.error(err.errors[0].msg) : Notify.error(err.error);
       })
       .finally(() => {
-        // setSubmittingMap((prev) => ({ ...prev, [id]: false }));
+        setSelectedTea(null);
       });
   };
 

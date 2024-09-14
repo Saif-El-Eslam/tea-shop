@@ -15,7 +15,11 @@ const Header: React.FC = () => {
     >
       <div
         className="w-full bg-lightBeige md:w-fit cursor-pointer flex items-center justify-center"
-        onClick={() => navigate("/home")}
+        onClick={() => {
+          state.user && state.user.role === "user"
+            ? navigate("/home")
+            : navigate("/teas");
+        }}
       >
         <img src={Logo} alt="tea-shop-logo" className="h-14 m-auto" />
       </div>
@@ -27,14 +31,14 @@ const Header: React.FC = () => {
             </li>
           )}
 
-          {state.user && state.user?.role === "user" && (
+          {state.user && (
             <li className="hover:text-gray-200">
-              <Link to="/home">Home</Link>
+              <Link to="/teas">Shop</Link>
             </li>
           )}
           {state.user && (
             <li className="hover:text-gray-200">
-              <Link to="/teas">Shop</Link>
+              <Link to="/orders">Orders</Link>
             </li>
           )}
           <li className="hover:text-gray-200">

@@ -34,14 +34,15 @@ const SpinnerWrapper: React.FC<SpinnerWrapperProps> = ({
 interface SpinnerProps {
   loading: boolean;
   color?: string;
+  size?: number;
 }
 
-const Spinner: React.FC<SpinnerProps> = ({ loading, color }) => {
+const Spinner: React.FC<SpinnerProps> = ({ loading, color, size }) => {
   return (
     <BeatLoader
       color={color ?? "#FFBF00"}
       loading={loading}
-      size={8}
+      size={size ?? 8}
       data-testid="spinner"
     />
   );
