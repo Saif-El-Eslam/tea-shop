@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useAppContext } from "../context/AppContext";
 import Loading from "@/components/Loading/Loading";
+import CartIcon from "@/components/Cart/CartIcon";
 
 import Home1 from "../assets/home-1.png";
 import Home2 from "../assets/home-2.png";
@@ -97,6 +98,8 @@ const HomePage: React.FC = () => {
               </div>
             </div>
           </section>
+
+          {state.user?.role === "user" && <CartIcon />}
         </div>
       )}
     </div>

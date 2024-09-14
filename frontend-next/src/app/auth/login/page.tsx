@@ -2,6 +2,8 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { jwtDecode } from "jwt-decode";
+
 import Input from "@/components/helpers/Input";
 import Button from "@/components/helpers/Button";
 import Spinner from "@/components/helpers/Spinner";
@@ -28,10 +30,20 @@ const Login: React.FC = () => {
     dispatch(setLoading(true));
     try {
       const res = await login(phoneNumber, password);
-      localStorage.setItem("role", res.role);
-      localStorage.setItem("token", res.token);
-      dispatch(setUser({ ...state.user, token: res.token, role: res.role }));
 
+      const decoded: any = jwtDecode(res.token);
+      localStorage.setItem("id", decoded.id);
+      localStorage.setItem("role", decoded.role);
+      localStorage.setItem("token", res.token);
+
+      dispatch(
+        setUser({
+          ...state.user,
+          token: res.token,
+          role: res.role,
+          id: decoded.id,
+        })
+      );
       res.role === "admin" ? router.push("/teas") : router.push("/");
     } catch (err: any) {
       err?.errors ? Notify.error(err.errors[0].msg) : Notify.error(err.error);

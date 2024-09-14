@@ -19,7 +19,11 @@ const Header: React.FC = () => {
     >
       <div
         className="w-full bg-lightBeige md:w-fit cursor-pointer flex items-center justify-center"
-        onClick={() => router.push("/")}
+        onClick={() => {
+          state.user && state.user.role === "user"
+            ? router.push("/home")
+            : router.push("/teas");
+        }}
       >
         <Image src={Logo} alt="tea-shop-logo" width={50} height={50} />
       </div>
@@ -34,14 +38,14 @@ const Header: React.FC = () => {
               </li>
             )}
 
-            {state.user && state.user?.role === "user" && (
+            {state.user && (
               <li className="hover:text-gray-200">
-                <Link href="/">Home</Link>
+                <Link href="/teas">Shop</Link>
               </li>
             )}
             {state.user && (
               <li className="hover:text-gray-200">
-                <Link href="/teas">Shop</Link>
+                <Link href="/orders">Orders</Link>
               </li>
             )}
             <li className="hover:text-gray-200">

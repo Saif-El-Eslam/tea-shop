@@ -3,16 +3,22 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-import { useAppContext } from "../../context/AppContext";
-import { setLoading, setProducts, addProduct } from "../../context/AppActions";
-import { getTeas, deleteTea } from "../../services/TeasService";
+import { useAppContext } from "@/context/AppContext";
+import {
+  setLoading,
+  setProducts,
+  addProduct,
+  addCart,
+} from "@/context/AppActions";
+import { getTeas, deleteTea } from "@/services/TeasService";
 
-import TeaCard from "../../components/TeaCard/TeaCard";
-import CreateUpdateTeaComponent from "../../components/CreateUpdateTea/CreateUpdateTea";
-import homeLogo from "../../assets/home.png";
-import CreateLogo from "../../assets/create-white.png";
-import Notify from "../../utils/Notify";
-import { TeaType } from "../../Types/types";
+import TeaCard from "@/components/TeaCard/TeaCard";
+import CreateUpdateTeaComponent from "@/components/CreateUpdateTea/CreateUpdateTea";
+import CartIcon from "@/components/Cart/CartIcon";
+import homeLogo from "@/assets/home.png";
+import CreateLogo from "@/assets/create-white.png";
+import Notify from "@/utils/Notify";
+import { TeaType } from "@/Types/types";
 import Loading from "@/components/Loading/Loading";
 
 const TeasPage: React.FC = () => {
@@ -36,7 +42,15 @@ const TeasPage: React.FC = () => {
     }
   };
 
-  const handleBuy = () => {};
+  const handleBuy = (id: string, price: number) => {
+    dispatch(
+      addCart({
+        productId: id,
+        price_per_unit: price,
+      })
+    );
+    Notify.success("Tea added to cart!");
+  };
 
   const handleDelete = async (id: string) => {
     return deleteTea(id)
@@ -152,19 +166,21 @@ const TeasPage: React.FC = () => {
       )}
 
       <div className="flex flex-wrap justify-center gap-4 m-8 lg:px-32">
-        {state.products.map((tea) => (
-          <TeaCard
-            key={tea.id}
-            name={tea.name}
-            description={tea.description}
-            pricePerUnit={tea.price_per_unit}
-            quantityLeft={tea.quantity}
-            isAdmin={state.user?.role === "admin"}
-            onBuy={handleBuy}
-            onDelete={() => handleDelete(tea.id)}
-            onUpdate={() => handleUpdate(tea)}
-          />
-        ))}
+        {!state.loading &&
+          state?.products &&
+          state?.products?.map((tea) => (
+            <TeaCard
+              key={tea.id}
+              name={tea.name}
+              description={tea.description}
+              pricePerUnit={tea.price_per_unit}
+              quantityLeft={tea.quantity}
+              isAdmin={state.user?.role === "admin"}
+              onBuy={() => handleBuy(tea.id, tea.price_per_unit)}
+              onDelete={() => handleDelete(tea.id)}
+              onUpdate={() => handleUpdate(tea)}
+            />
+          ))}
       </div>
 
       {createUpdateOpen && (
@@ -174,6 +190,8 @@ const TeasPage: React.FC = () => {
           onClose={handleClosePopup}
         />
       )}
+
+      {state.user?.role === "user" && <CartIcon />}
     </div>
   );
 };
