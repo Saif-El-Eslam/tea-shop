@@ -1,9 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 
-import { MUTATION_INSERT_ORDER } from "../../graphQL/Mutations/ordersMutations";
+import {
+  MUTATION_INSERT_ORDER,
+  MUTATION_UPDATE_TEAS_BY_PK,
+} from "../../graphQL/Mutations/ordersMutations";
 import { useAppContext } from "../../context/AppContext";
-import { removeCart, addCart, setCart } from "../../context/AppActions";
+import {
+  removeCart,
+  addCart,
+  setCart,
+  setRefetchOrders,
+} from "../../context/AppActions";
 
 import TeaLogo from "../../assets/buy-white.png";
 import TeaImage from "../../assets/tea.png";
@@ -14,11 +22,12 @@ import Notify from "../../utils/Notify";
 
 const CartPage: React.FC = () => {
   const [insertOrder] = useMutation(MUTATION_INSERT_ORDER);
+  const [updateTeaQuantity] = useMutation(MUTATION_UPDATE_TEAS_BY_PK);
   const navigate = useNavigate();
   const { state, dispatch } = useAppContext();
 
   const handleCheckout = async () => {
-    const products = state.cart.map((item: any) => ({
+    const cartProducts = state.cart.map((item: any) => ({
       tea_id: item.productId,
       quantity: item.quantityInCart,
       price_per_unit: item.price_per_unit,
@@ -26,15 +35,31 @@ const CartPage: React.FC = () => {
     }));
 
     try {
-      await insertOrder({
-        variables: {
-          totalPrice: state.cart.reduce((acc, item) => acc + item.subTotal, 0),
-          userId: state.user?.id,
-          orderItems: products,
-        },
-      });
+      const operations = [
+        insertOrder({
+          variables: {
+            totalPrice: state.cart.reduce(
+              (acc, item) => acc + item.subTotal,
+              0
+            ),
+            userId: state.user?.id,
+            orderItems: cartProducts,
+          },
+        }),
+        cartProducts.map((item) =>
+          updateTeaQuantity({
+            variables: {
+              id: item.tea_id,
+              quantity: -item.quantity,
+            },
+          })
+        ),
+      ];
+      await Promise.all(operations);
+
       Notify.success("Order placed successfully");
       dispatch(setCart([]));
+      dispatch(setRefetchOrders(true));
       navigate("/teas");
     } catch (err: any) {
       err?.errors

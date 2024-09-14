@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 
+import { setRefetchOrders } from "../../context/AppActions";
 import { QUERY_ORDERS } from "../../graphQL/Queries/ordersQueries";
 import { useAppContext } from "../../context/AppContext";
 import OrderDetailsModal from "../../components/OrderDetails/OrderDetails";
@@ -12,9 +13,9 @@ import homeLogo from "../../assets/home.png";
 import Notify from "../../utils/Notify";
 
 const OrdersPage: React.FC = () => {
-  const { loading, error, data } = useQuery(QUERY_ORDERS);
+  const { loading, error, data, refetch } = useQuery(QUERY_ORDERS);
   const navigate = useNavigate();
-  const { state } = useAppContext();
+  const { state, dispatch } = useAppContext();
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedOrderID, setSelectedOrderID] = useState<string>("");
@@ -32,6 +33,11 @@ const OrdersPage: React.FC = () => {
   if (error) {
     Notify.error(error.message);
   }
+
+  useEffect(() => {
+    state.refetchOrders && refetch();
+    dispatch(setRefetchOrders(false));
+  }, []);
 
   return (
     <div className="w-full flex flex-col flex-grow">
@@ -126,11 +132,13 @@ const OrdersPage: React.FC = () => {
 
         {state.user?.role === "user" && <CartIcon />}
 
-        <OrderDetailsModal
-          isOpen={isModalOpen}
-          onClose={handleCloseModal}
-          orderId={selectedOrderID}
-        />
+        {isModalOpen && (
+          <OrderDetailsModal
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+            orderId={selectedOrderID}
+          />
+        )}
       </div>
     </div>
   );

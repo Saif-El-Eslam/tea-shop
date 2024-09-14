@@ -4,6 +4,7 @@ import {
   REMOVE_PRODUCT,
   SET_PRODUCTS,
   SET_LOADING,
+  SET_REFETCH_ORDERS,
   Add_CART,
   REMOVE_CART,
   SET_CART,
@@ -32,6 +33,7 @@ export interface State {
   products: Product[];
   cart: CartItem[];
   loading: boolean;
+  refetchOrders: boolean;
 }
 
 export interface Action {
@@ -44,6 +46,7 @@ export const initialState: State = {
   products: [],
   cart: [],
   loading: true,
+  refetchOrders: true,
 };
 
 export const appReducer = (state: State, action: Action): State => {
@@ -52,6 +55,8 @@ export const appReducer = (state: State, action: Action): State => {
       return { ...state, user: action.payload };
     case SET_LOADING:
       return { ...state, loading: action.payload };
+    case SET_REFETCH_ORDERS:
+      return { ...state, refetchOrders: action.payload };
     case SET_PRODUCTS:
       return { ...state, products: action.payload };
     case ADD_PRODUCT:

@@ -27,7 +27,14 @@ const Login: React.FC = () => {
       localStorage.setItem("role", decoded.role);
       localStorage.setItem("token", res.token);
 
-      dispatch(setUser({ ...state.user, token: res.token, role: res.role }));
+      dispatch(
+        setUser({
+          ...state.user,
+          token: res.token,
+          role: res.role,
+          id: decoded.id,
+        })
+      );
       res.role === "admin" ? navigate("/teas") : navigate("/");
     } catch (err: any) {
       err?.errors ? Notify.error(err.errors[0].msg) : Notify.error(err.error);

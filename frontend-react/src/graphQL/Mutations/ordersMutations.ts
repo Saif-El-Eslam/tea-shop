@@ -26,3 +26,15 @@ export const MUTATION_INSERT_ORDER = gql`
     }
   }
 `;
+
+export const MUTATION_UPDATE_TEAS_BY_PK = gql`
+  mutation UpdateTeaQuantity($id: uuid!, $quantity: Int!) {
+    update_teas_by_pk(pk_columns: { id: $id }, _inc: { quantity: $quantity }) {
+      id
+      name
+      description
+      price_per_unit
+      quantity
+    }
+  }
+`;

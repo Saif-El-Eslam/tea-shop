@@ -2,20 +2,13 @@ import React, { useRef, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { useQuery } from "@apollo/client";
 
+import { useAppContext } from "../../context/AppContext";
+
 import { QUERY_ORDER_DETAILS } from "../../graphQL/Queries/ordersQueries";
 import Spinner from "../helpers/Spinner";
 
 import CloseIcone from "../../assets/cross.png";
 import Notify from "../../utils/Notify";
-
-interface OrderItem {
-  tea: {
-    name: string;
-  };
-  price_per_unit: number;
-  quantity: number;
-  tea_id: string;
-}
 
 interface OrderDetailsModalProps {
   isOpen: boolean;
@@ -31,6 +24,7 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
   const { loading, error, data } = useQuery(QUERY_ORDER_DETAILS, {
     variables: { id: orderId },
   });
+  const { state } = useAppContext();
 
   const modalRef = useRef<HTMLDivElement | null>(null);
 
@@ -73,8 +67,13 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
       <div
         ref={modalRef}
-        className="w-full max-w-lg mx-4 py-4 rounded-2xl bg-lightBeige flex flex-col justify-center items-start gap-4 lg:flex-row lg:gap-8 relative"
+        className="w-full max-w-lg mx-4 py-4 rounded-2xl bg-lightBeige flex flex-col justify-center items-start gap-2 lg:flex-row lg:gap-8 relative"
       >
+        {state?.user?.role === "admin" && (
+          <div className="text-[#808080] font-medium text-sm mx-auto">
+            USER ID: {data.orders_by_pk.user_id}
+          </div>
+        )}
         <table className="min-w-full border-collapse">
           <thead>
             <tr className="text-[#808080] border-b">
@@ -125,14 +124,7 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
                     Total Price:
                   </span>
                   <span className="font-normal text-sm">
-                    $
-                    {data.orders_by_pk.orderitems
-                      .reduce(
-                        (acc: number, item: OrderItem) =>
-                          acc + item.quantity * item.price_per_unit,
-                        0
-                      )
-                      .toFixed(2)}
+                    ${data.orders_by_pk.total_price}
                   </span>
                 </div>
               </td>

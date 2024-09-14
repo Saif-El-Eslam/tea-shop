@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 export const QUERY_ORDERS = gql`
   query QUERY_ORDERS @cached {
-    orders {
+    orders(order_by: { createdAt: desc }) {
       id
       total_price
       createdAt
@@ -29,6 +29,8 @@ export const QUERY_ORDER_DETAILS = gql`
           name
         }
       }
+      total_price
+      user_id
     }
   }
 `;
