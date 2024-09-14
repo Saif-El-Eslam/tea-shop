@@ -6,6 +6,7 @@ import { QUERY_ORDER_DETAILS } from "../../graphQL/Queries/ordersQueries";
 import Spinner from "../helpers/Spinner";
 
 import CloseIcone from "../../assets/cross.png";
+import Notify from "../../utils/Notify";
 
 interface OrderItem {
   tea: {
@@ -55,6 +56,9 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
+  if (error) {
+    Notify.error(error.message);
+  }
   if (loading)
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-10 z-50">
