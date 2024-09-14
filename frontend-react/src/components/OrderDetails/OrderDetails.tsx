@@ -73,7 +73,7 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
       <div
         ref={modalRef}
-        className="w-full max-w-lg mx-4 py-2 rounded-2xl bg-lightBeige flex flex-col justify-center items-start gap-4 lg:flex-row lg:gap-8 relative"
+        className="w-full max-w-lg mx-4 py-4 rounded-2xl bg-lightBeige flex flex-col justify-center items-start gap-4 lg:flex-row lg:gap-8 relative"
       >
         <table className="min-w-full border-collapse">
           <thead>
