@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -43,9 +43,9 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
   if (loading) {
     return (
       <Modal transparent visible={isOpen} onRequestClose={onClose}>
-        <View style={styles.modalOverlay}>
+        <TouchableOpacity style={styles.modalOverlay} onPress={onClose}>
           <DotIndicator count={3} size={12} color={colors.yellow} />
-        </View>
+        </TouchableOpacity>
       </Modal>
     );
   }
@@ -57,8 +57,12 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
 
   return (
     <Modal transparent visible={isOpen} onRequestClose={onClose}>
-      <View style={styles.modalOverlay}>
-        <View style={styles.modalContent}>
+      <TouchableOpacity style={styles.modalOverlay} onPress={onClose}>
+        <TouchableOpacity
+          activeOpacity={1}
+          style={styles.modalContent}
+          onPress={() => {}}
+        >
           {state?.user?.role === "admin" && (
             <Text style={styles.userIdText}>
               USER ID: {data.orders_by_pk.user_id}
@@ -104,8 +108,8 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
               </View>
             </View>
           </ScrollView>
-        </View>
-      </View>
+        </TouchableOpacity>
+      </TouchableOpacity>
     </Modal>
   );
 };

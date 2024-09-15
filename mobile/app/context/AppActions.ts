@@ -1,4 +1,3 @@
-// Define action types
 export const SET_USER = "SET_USER";
 export const ADD_PRODUCT = "ADD_PRODUCT";
 export const REMOVE_PRODUCT = "REMOVE_PRODUCT";
@@ -9,7 +8,6 @@ export const Add_CART = "Add_CART";
 export const REMOVE_CART = "REMOVE_CART";
 export const SET_CART = "SET_CART";
 
-// Action creators
 export const setUser = (
   user: { token: string; name?: string; role?: string; id?: string } | null
 ) => ({

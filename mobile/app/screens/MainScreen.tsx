@@ -1,15 +1,3 @@
-// import React from "react";
-// import { View, Text } from "react-native";
-
-// const MainScreen = () => {
-//   return (
-//     <View>
-//       <Text>Main Page</Text>
-//     </View>
-//   );
-// };
-
-// export default MainScreen;
 import React from "react";
 import {
   View,
@@ -19,7 +7,7 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native"; // Using react-navigation
+import { useNavigation } from "@react-navigation/native";
 
 import { LoginScreenNavigationProp } from "app/types/navigation";
 const Home1 = require("../assets/home-1.png");

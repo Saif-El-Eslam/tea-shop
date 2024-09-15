@@ -2,10 +2,8 @@ import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
-  Image,
   TouchableOpacity,
   FlatList,
-  // ActivityIndicator,
   StyleSheet,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -41,7 +39,7 @@ const OrdersScreen: React.FC = () => {
   useEffect(() => {
     state.refetchOrders && refetch();
     dispatch(setRefetchOrders(false));
-  }, []);
+  }, [state.refetchOrders]);
 
   if (error) {
     Notify.error(error.message);

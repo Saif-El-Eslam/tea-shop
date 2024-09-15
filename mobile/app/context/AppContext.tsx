@@ -5,9 +5,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect } from "react";
 
 import { appReducer, initialState, State, Action } from "./AppReducer";
-import { SET_LOADING, SET_USER, SET_CART } from "./AppActions";
+import { SET_LOADING, SET_USER } from "./AppActions";
 
-// Create a context with a default value
 const AppContext = createContext<{
   state: State;
   dispatch: React.Dispatch<Action>;
@@ -16,7 +15,6 @@ const AppContext = createContext<{
   dispatch: () => null,
 });
 
-// The provider component that wraps the application
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(appReducer, initialState);
 
@@ -57,5 +55,4 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// Custom hook to use the AppContext
 export const useAppContext = () => React.useContext(AppContext);

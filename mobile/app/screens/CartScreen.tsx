@@ -27,7 +27,6 @@ import Notify from "app/utils/Notify";
 import colors from "app/utils/colors";
 
 // Replace with local image paths if necessary
-const TeaLogo = require("app/assets/buy-white.png");
 const TeaImage = require("app/assets/tea.png");
 const CrossIcon = require("app/assets/cross.png");
 const PlusIcon = require("app/assets/plus.png");

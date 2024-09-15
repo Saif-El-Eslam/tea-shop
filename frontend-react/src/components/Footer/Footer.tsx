@@ -1,14 +1,12 @@
 import React from "react";
 import { useAppContext } from "../../context/AppContext";
-import { setUser } from "../../context/AppActions";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import facebookIcon from "../../assets/facebook.png";
 import instagramIcon from "../../assets/instagram.png";
 import xIcon from "../../assets/x.png";
 
 const Header: React.FC = () => {
-  const { state, dispatch } = useAppContext();
-  const navigate = useNavigate();
+  const { state } = useAppContext();
 
   return (
     <div

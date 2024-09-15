@@ -1,7 +1,7 @@
 import React, { createContext, useReducer, ReactNode } from "react";
 import { appReducer, initialState, State, Action } from "./AppReducer";
 import { useEffect } from "react";
-import { SET_LOADING, SET_USER, SET_PRODUCTS } from "./AppActions";
+import { SET_LOADING, SET_USER } from "./AppActions";
 
 // Create a context with a default value
 const AppContext = createContext<{
@@ -29,7 +29,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     // }
 
     dispatch({ type: SET_LOADING, payload: false });
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <AppContext.Provider value={{ state, dispatch }}>

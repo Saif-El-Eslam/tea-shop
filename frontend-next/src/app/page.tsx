@@ -12,7 +12,7 @@ import Home2 from "../assets/home-2.png";
 import Home3 from "../assets/home-3.png";
 
 const HomePage: React.FC = () => {
-  const { state, dispatch } = useAppContext();
+  const { state } = useAppContext();
   const router = useRouter();
 
   useEffect(() => {

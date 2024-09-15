@@ -7,7 +7,6 @@ import {
   StyleSheet,
   ScrollView,
   Dimensions,
-  useWindowDimensions,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import colors from "app/utils/colors";

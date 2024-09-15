@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  // BrowserRouter as Router,
-  Route,
-  Routes,
-  // Navigate,
-} from "react-router-dom";
-// import { AuthProvider } from "./context/AuthContext";
+import { Route, Routes } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import AuthPage from "./pages/auth/AuthPage";
 import Home from "./pages/home/HomePage";
@@ -22,14 +16,11 @@ import { useLocation } from "react-router-dom";
 import CartPage from "./pages/cart/Cart";
 
 const App: React.FC = () => {
-  // is auth route ?
   const location = useLocation();
   let isAuth = location.pathname.includes("/auth");
 
   return (
     <AppProvider>
-      {/* <Router> */}
-
       <div className="App min-h-screen flex flex-col bg-[#F5F5F5] overflow-hidden">
         <header className="App-header">
           <Header />
@@ -86,7 +77,6 @@ const App: React.FC = () => {
             <Route
               path="*"
               element={
-                // make a 404 page
                 <div className="flex flex-col items-center justify-center h-[60vh] text-alert font-bold text-2xl">
                   <h1>404</h1>
                   <h2>Page not found</h2>
@@ -103,8 +93,6 @@ const App: React.FC = () => {
         )}
       </div>
       <ToastContainer />
-
-      {/* </Router> */}
     </AppProvider>
   );
 };

@@ -4,14 +4,12 @@ import {
   Text,
   Image,
   StyleSheet,
-  Dimensions,
   ScrollView,
   useWindowDimensions,
   TouchableOpacity,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-const { width } = Dimensions.get("window");
 const placeholderImage = "https://placehold.co/500";
 const teamMemberImage = "https://placehold.co/150";
 
@@ -23,8 +21,7 @@ const AboutScreen: React.FC = () => {
     navigation.goBack();
   };
 
-  // Calculate the image height to maintain a square aspect ratio
-  const imageHeight = width; // Adjust this if you want a different fixed size
+  const imageHeight = width;
 
   return (
     <View style={styles.container}>

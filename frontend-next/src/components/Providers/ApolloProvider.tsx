@@ -1,4 +1,4 @@
-"use client"; // Required when using hooks in Next.js App Router
+"use client";
 
 import { ApolloProvider as Provider } from "@apollo/client";
 import client from "@/graphQL/apolloClient";

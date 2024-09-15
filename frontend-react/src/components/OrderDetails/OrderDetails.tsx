@@ -100,8 +100,8 @@ const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({
             </tr>
           </thead>
           <tbody>
-            {data.orders_by_pk.orderitems.map((item: any) => (
-              <tr key={item.tea_id} className="border-b">
+            {data.orders_by_pk.orderitems.map((item: any, i: number) => (
+              <tr key={i} className="border-b">
                 <td className="font-normal text-sm py-2 px-4 text-center">
                   {item.tea.name}
                 </td>

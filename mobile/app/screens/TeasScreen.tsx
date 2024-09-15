@@ -4,10 +4,8 @@ import {
   Text,
   Image,
   TouchableOpacity,
-  TouchableHighlight,
   FlatList,
   StyleSheet,
-  ActivityIndicator,
 } from "react-native";
 import { DotIndicator } from "react-native-indicators";
 import { useNavigation } from "@react-navigation/native";
@@ -28,11 +26,9 @@ import Notify from "app/utils/Notify";
 import { TeaType } from "app/types/types";
 import colors from "app/utils/colors";
 
-const homeLogo = require("app/assets/home.png");
 const CreateLogo = require("app/assets/create-white.png");
 
 const TeasScreen: React.FC = () => {
-  const navigation = useNavigation<LoginScreenNavigationProp>();
   const { state, dispatch } = useAppContext();
   const [createUpdateOpen, setCreateUpdateOpen] = useState(false);
   const [selectedTea, setSelectedTea] = useState<TeaType | null>(null);
@@ -108,16 +104,6 @@ const TeasScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      {/* <View style={styles.header}>
-        <TouchableHighlight
-          onPress={() => navigation.navigate("Main")}
-          style={styles.touchableHighlight}
-        >
-          <Image source={homeLogo} style={styles.logo} />
-        </TouchableHighlight>
-        <Text style={styles.title}>{">"} Teas Types</Text>
-      </View> */}
-
       {state.user?.role === "admin" && (
         <View style={styles.createButtonContainer}>
           <TouchableOpacity style={styles.createButton} onPress={handleCreate}>

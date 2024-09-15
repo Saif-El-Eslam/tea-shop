@@ -11,7 +11,6 @@ import {
 } from "./AppActions";
 import { TeaType } from "../types/types";
 
-// Define types for User and Product
 interface User {
   id: string;
   token: string;

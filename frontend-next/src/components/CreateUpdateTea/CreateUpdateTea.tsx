@@ -15,7 +15,7 @@ const CreateUpdateTeaComponent: React.FC<Props> = ({
   onSuccess,
   onClose,
 }) => {
-  const modalRef = useRef<HTMLDivElement>(null); // Ref for the modal container
+  const modalRef = useRef<HTMLDivElement>(null);
 
   const [formData, setFormData] = useState<TeaType>({
     id: tea?.id || "",
@@ -27,20 +27,17 @@ const CreateUpdateTeaComponent: React.FC<Props> = ({
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Handle form input changes
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value, type } = e.target;
 
-    // Handle different input types
     setFormData({
       ...formData,
       [name]: type === "number" ? Number(value) : value,
     });
   };
 
-  // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -70,7 +67,6 @@ const CreateUpdateTeaComponent: React.FC<Props> = ({
     }
   };
 
-  // Close modal when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (

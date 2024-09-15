@@ -40,7 +40,7 @@ const OrdersPage: React.FC = () => {
   useEffect(() => {
     state.refetchOrders && refetch();
     dispatch(setRefetchOrders(false));
-  }, []);
+  }, []); // eslint-disable-line
 
   return (
     <div className="w-full flex flex-col flex-grow">

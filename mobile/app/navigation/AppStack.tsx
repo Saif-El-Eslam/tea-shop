@@ -106,9 +106,9 @@ export default function AppStackNavigator() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, // Full height container to allow content below header
+    flex: 1,
   },
   contentContainer: {
-    flex: 1, // Content takes up the rest of the space after the header
+    flex: 1,
   },
 });
