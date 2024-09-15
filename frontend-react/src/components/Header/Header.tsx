@@ -1,7 +1,11 @@
 import Logo from "../../assets/tea-shop-logo.png";
 import React from "react";
 import { useAppContext } from "../../context/AppContext";
-import { setUser, setProducts } from "../../context/AppActions";
+import {
+  setUser,
+  setProducts,
+  setRefetchOrders,
+} from "../../context/AppActions";
 import { useNavigate, Link } from "react-router-dom";
 
 const Header: React.FC = () => {
@@ -58,6 +62,7 @@ const Header: React.FC = () => {
                 localStorage.removeItem("teas");
                 dispatch(setUser(null));
                 dispatch(setProducts([]));
+                dispatch(setRefetchOrders(true));
               }}
             >
               <Link to="/auth/login">Logout</Link>
