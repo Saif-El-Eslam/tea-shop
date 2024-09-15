@@ -12,15 +12,16 @@ import {
 } from "react-native";
 import { DotIndicator } from "react-native-indicators";
 import { useNavigation } from "@react-navigation/native";
+import { jwtDecode } from "jwt-decode";
 
 import { LoginScreenNavigationProp } from "app/types/navigation";
-import { useAppContext } from "../context/AppContext";
-import { setUser, setLoading } from "../context/AppActions";
-import { login } from "../services/AuthService";
+import { useAppContext } from "app/context/AppContext";
+import { setUser, setLoading } from "app/context/AppActions";
+import { login } from "app/services/AuthService";
 import colors from "app/utils/colors";
 import Notify from "app/utils/Notify";
 
-const logoImage = require("../assets/tea-shop-logo.png");
+const logoImage = require("app/assets/tea-shop-logo.png");
 
 const screenHeight = Dimensions.get("window").height;
 
@@ -39,9 +40,20 @@ const LoginScreen = () => {
     try {
       dispatch(setLoading(true));
       const res = await login(phoneNumber, password);
+
+      const decoded: any = jwtDecode(res.token);
+      await AsyncStorage.setItem("id", JSON.stringify(decoded.id));
+      await AsyncStorage.setItem("role", JSON.stringify(decoded.role));
       await AsyncStorage.setItem("token", JSON.stringify(res.token));
-      await AsyncStorage.setItem("role", JSON.stringify(res.role));
-      dispatch(setUser({ ...state.user, token: res.token, role: res.role }));
+
+      dispatch(
+        setUser({
+          ...state.user,
+          token: res.token,
+          role: res.role,
+          id: decoded.id,
+        })
+      );
       res.role === "admin"
         ? navigation.navigate("Teas")
         : navigation.navigate("Main");

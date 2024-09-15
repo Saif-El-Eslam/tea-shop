@@ -9,5 +9,15 @@
     },
     "baseUrl": "./"
   },
+  // "compilerOptions": {
+  //   "target": "esnext",
+  //   "module": "esnext",
+  //   "strict": true,
+  //   "jsx": "react-native",
+  //   "esModuleInterop": true,
+  //   "skipLibCheck": true,
+  //   "moduleResolution": "node",
+  //   "allowSyntheticDefaultImports": true
+  // },
   "types": ["react", "react-native"]
 }

@@ -15,7 +15,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { LoginScreenNavigationProp } from "app/types/navigation";
 import { useAppContext } from "app/context/AppContext";
-import { setLoading, setProducts, addProduct } from "app/context/AppActions";
+import {
+  setLoading,
+  setProducts,
+  addProduct,
+  addCart,
+} from "app/context/AppActions";
 import { getTeas, deleteTea } from "app/services/TeasService";
 import TeaCard from "app/components/TeaCard";
 import CreateUpdateTeaComponent from "app/components/CreateUpdateTea";
@@ -43,6 +48,16 @@ const TeasScreen: React.FC = () => {
     } finally {
       dispatch(setLoading(false));
     }
+  };
+
+  const handleBuy = async (id: string, price: number) => {
+    dispatch(
+      addCart({
+        productId: id,
+        price_per_unit: price,
+      })
+    );
+    Notify.success("Tea added to cart!");
   };
 
   const handleDelete = async (id: string) => {
@@ -130,7 +145,9 @@ const TeasScreen: React.FC = () => {
               pricePerUnit={item.price_per_unit}
               quantityLeft={item.quantity}
               isAdmin={state.user?.role === "admin"}
-              onBuy={() => {}}
+              onBuy={() => {
+                handleBuy(item.id, item.price_per_unit);
+              }}
               onUpdate={() => handleUpdate(item)}
               onDelete={() => handleDelete(item.id)}
             />

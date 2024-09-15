@@ -5,7 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect } from "react";
 
 import { appReducer, initialState, State, Action } from "./AppReducer";
-import { SET_LOADING, SET_USER } from "./AppActions";
+import { SET_LOADING, SET_USER, SET_CART } from "./AppActions";
 
 // Create a context with a default value
 const AppContext = createContext<{
@@ -25,12 +25,16 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       dispatch({ type: SET_LOADING, payload: true });
 
       try {
+        const id = JSON.parse((await AsyncStorage.getItem("id")) || "");
         const token = JSON.parse((await AsyncStorage.getItem("token")) || "");
         const role = JSON.parse((await AsyncStorage.getItem("role")) || "");
         // const teas = await AsyncStorage.getItem("teas");
 
         if (token) {
-          dispatch({ type: SET_USER, payload: { ...state.user, token, role } });
+          dispatch({
+            type: SET_USER,
+            payload: { ...state.user, token, role, id },
+          });
         }
         // if (teas) {
         //   dispatch({ type: SET_PRODUCTS, payload: teas });

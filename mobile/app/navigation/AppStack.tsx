@@ -10,6 +10,7 @@ import Header from "app/components/Header";
 import MainScreen from "../screens/MainScreen";
 import Teascreen from "../screens/TeasScreen";
 import OrdersScreen from "../screens/OrdersScreen";
+import CartScreen from "app/screens/CartScreen";
 import ProfileStack from "./ProfileStack";
 import colors from "../utils/colors";
 import { useAppContext } from "../context/AppContext";
@@ -39,8 +40,15 @@ export default function AppStackNavigator() {
               return <MaterialIcons name="list-alt" size={28} color={color} />;
             } else if (route.name === "Profile") {
               return <Octicons name="person" size={28} color={color} />;
+            } else if (route.name === "Cart") {
+              return (
+                <MaterialCommunityIcons
+                  name="cart-outline"
+                  size={28}
+                  color={color}
+                />
+              );
             }
-            // <MaterialCommunityIcons name="cart-outline" size={24} color="black" />
             return null;
           },
           tabBarStyle: {
@@ -74,6 +82,13 @@ export default function AppStackNavigator() {
           component={Teascreen}
           options={{ headerShown: false }}
         />
+        {state.user?.role === "user" && (
+          <Tab.Screen
+            name="Cart"
+            component={CartScreen}
+            options={{ headerShown: false }}
+          />
+        )}
         <Tab.Screen
           name="Orders"
           component={OrdersScreen}
