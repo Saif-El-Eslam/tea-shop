@@ -1,6 +1,7 @@
 import express from "express";
 import { authenticate } from "../middlewares/authMiddleware";
 import { isAdmin } from "../middlewares/isAdminMiddleware";
+import { isTeasCached, isTeaInCash } from "../middlewares/isTeasCached";
 import teaRoutes from "../controllers/teaController";
 import teaValidation from "../validations/teaValidations";
 
@@ -10,12 +11,14 @@ router.get(
   "/",
   authenticate,
   teaValidation.getTeas,
+  isTeasCached,
   teaRoutes.getTeasController
 );
 router.get(
   "/:id",
   authenticate,
   teaValidation.getTeaById,
+  isTeaInCash,
   teaRoutes.getTeaByIdController
 );
 router.post(

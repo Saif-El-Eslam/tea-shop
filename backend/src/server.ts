@@ -1,6 +1,7 @@
 import app from "./app";
 import dotenv from "dotenv";
 import sequelize from "./config/database";
+import redisClient from "./config/redis";
 import { User } from "./models/User";
 import { Tea } from "./models/Tea";
 import { Order } from "./models/Order";
@@ -10,7 +11,7 @@ dotenv.config();
 
 const port = process.env.PORT || 5000;
 
-const startServer = () => {
+const startServer = async () => {
   // Initialize models
   User.initialize(sequelize);
   Tea.initialize(sequelize);
@@ -23,18 +24,18 @@ const startServer = () => {
   Order.associate();
   OrderItems.associate();
 
-  sequelize
-    .sync()
-    .then(() => {
-      console.log("Database connected");
+  await redisClient.connect();
 
-      app.listen(port, () => {
-        console.log(`Server running on port ${port}`);
-      });
-    })
-    .catch((err) => {
-      console.error("Unable to connect to the database:", err);
-    });
+  try {
+    await sequelize.sync();
+    console.log("Database connected");
+  } catch (error) {
+    console.error("Unable to connect to the database:", error);
+  }
+
+  app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+  });
 };
 
 startServer();

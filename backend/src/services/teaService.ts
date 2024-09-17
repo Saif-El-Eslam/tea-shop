@@ -1,12 +1,21 @@
 import { Tea } from "../models/Tea";
+import redisClient from "../config/redis";
 
 const getTeas = async () => {
   const teas = await Tea.findAll();
+
+  await redisClient.set("teas", JSON.stringify(teas));
+
   return teas;
 };
 
 const getTeaById = async (id: string) => {
   const tea = await Tea.findByPk(id);
+
+  if (!tea) {
+    throw new Error("Tea not found");
+  }
+
   return tea;
 };
 
@@ -28,6 +37,9 @@ const createTea = async ({
     price_per_unit,
     quantity,
   });
+
+  await redisClient.del("teas");
+
   return newTea;
 };
 
@@ -53,6 +65,8 @@ const updateTea = async ({
     throw new Error("Tea not found");
   }
 
+  await redisClient.del("teas");
+
   return updatedTea;
 };
 
@@ -62,6 +76,8 @@ const deleteTea = async (id: string) => {
   if (deletedTea < 1) {
     throw new Error("Tea not found");
   }
+
+  await redisClient.del("teas");
 
   return deletedTea;
 };
